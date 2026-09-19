@@ -1,7 +1,8 @@
 /* ==========================================================================
    SentinelGuard AI - Application Logic
    Features: Multi-Vector Threat Radar, Domain Header Auditor, Phish Hunt Sandbox,
-             Deepfake Audio Analyzer, Visual Clone Inspector, Gemini AI Agent
+             Deepfake Audio Analyzer, Visual Clone Inspector, Gemini AI Agent,
+             Enterprise Admin SOC Operations Command Console
    ========================================================================== */
 
 // --- Global Application State ---
@@ -17,6 +18,13 @@ const state = {
     // Gemini API & Chatbot State
     geminiApiKey: localStorage.getItem('sentinel_gemini_key') || '',
     chatHistory: [],
+
+    // Admin SOC Policies State
+    adminPolicy: {
+        heuristicSensitivity: 'Balanced',
+        deepfakeThreshold: 'Strict (High Sensitivity)',
+        sinkholeAutoEnforce: true
+    },
 
     // Sandbox Game State
     sandbox: {
@@ -85,6 +93,59 @@ function switchTab(tabId) {
     // Tab specific trigger actions
     if (tabId === 'header-audit' && !state.headerAudited) {
         runDomainAudit();
+    }
+}
+
+// --- ENTERPRISE ADMIN SOC CONSOLE LOGIC ---
+function updatePolicySetting(type, val) {
+    if (type === 'heuristic') {
+        const labels = ['Permissive', 'Balanced', 'Aggressive (Strict Zero-Trust)'];
+        const label = labels[val - 1] || 'Balanced';
+        state.adminPolicy.heuristicSensitivity = label;
+        document.getElementById('val-heuristic').innerText = label;
+    } else if (type === 'deepfake') {
+        const labels = ['Strict (High Sensitivity)', 'Standard Mode'];
+        const label = labels[val - 1] || 'Strict (High Sensitivity)';
+        state.adminPolicy.deepfakeThreshold = label;
+        document.getElementById('val-deepfake').innerText = label;
+    } else if (type === 'sinkhole') {
+        state.adminPolicy.sinkholeAutoEnforce = val;
+    }
+}
+
+function deployPhishCampaign() {
+    const title = document.getElementById('campaign-title').value.trim();
+    const body = document.getElementById('campaign-body').value.trim();
+
+    if (!title || !body) {
+        alert('Please provide both a Campaign Title and Scenario Body!');
+        return;
+    }
+
+    // Push custom scenario to Phish Hunt Sandbox
+    GAME_SCENARIOS.unshift({
+        from: 'Corporate Security Admin <admin-sim@company-internal.com>',
+        to: 'all-employees@company.com',
+        subject: `[SIMULATED TEST] ${title}`,
+        body: `${body}<br><br><a href="#" class="mock-link" onclick="return false;">http://company-internal-verify-portal.net/login</a>`,
+        type: 'phishing',
+        explanation: `Custom Admin Campaign ("${title}") deployed successfully to employee training queues.`
+    });
+
+    alert(`🚀 Phishing Campaign "${title}" deployed network-wide! Added to Phish Hunt Sandbox.`);
+    document.getElementById('campaign-title').value = '';
+    document.getElementById('campaign-body').value = '';
+
+    // Reset game to level 1 with new scenario
+    state.sandbox.currentScenarioIndex = 0;
+    renderScenario();
+}
+
+function removeSinkhole(btn) {
+    if (confirm('Are you sure you want to remove this DNS sinkhole firewall block rule?')) {
+        const row = btn.closest('tr');
+        row.remove();
+        alert('Rule removed from corporate firewall table.');
     }
 }
 
@@ -835,11 +896,11 @@ async function fetchGeminiApiResponse(userQuery) {
     return generateContextualBotReply(userQuery);
 }
 
-// Advanced Neural Conversational Classifier (FIXED: Word Boundary & Intent Matching)
+// Advanced Neural Conversational Classifier
 function generateContextualBotReply(q) {
     const qLower = q.toLowerCase();
 
-    // 1. STANDALONE GREETING CHECK (Using word boundaries to avoid matching "phishing" or "this")
+    // 1. STANDALONE GREETING CHECK
     if (/\b(hi|hello|hey|greetings|sup)\b/i.test(qLower) && qLower.length < 15) {
         return '👋 Greetings! I am your <strong>Sentinel AI Cyber Agent</strong>. Ask me any cybersecurity question, paste a link, or inquire about threat remediation steps!';
     }
@@ -874,7 +935,7 @@ function generateContextualBotReply(q) {
         return '🌐 <strong>URL Structural Inspection:</strong><br>When evaluating URLs, SentinelGuard AI inspects:<br>1. <strong>TLD Risk Index:</strong> High-risk TLDs like <code>.xyz</code>, <code>.top</code>, or <code>.cfd</code>.<br>2. <strong>Subdomain Depth:</strong> Hiding the real domain deep inside <code>m365.login.verify.com.evil-host.ru</code>.<br>3. <strong>Protocol Encryption:</strong> Insecure cleartext HTTP connections.';
     }
 
-    // 8. GENERAL CYBERSECURITY QUERY FALLBACK (Parsing User Intent Keywords)
+    // 8. GENERAL CYBERSECURITY QUERY FALLBACK
     const keywordsFound = q.match(/\b[A-Za-z0-9]{4,}\b/g) || ['security'];
     const focusTopic = keywordsFound.slice(0, 3).join(', ');
 

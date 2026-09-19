@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SentinelGuard AI - Next-Generation AI Cyber Threat Radar & Phishing Protection Platform for real-time scam detection, URL threat scoring, deepfake audio analysis, and privacy auditing.">
-    <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, deepfake voice scam, zero trust, SOC radar">
+    <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, deepfake voice scam, zero trust, SOC radar, enterprise security">
     <title>SentinelGuard AI | Real-Time Cyber Threat Radar & Phishing Defense</title>
     
     <!-- Google Fonts -->
@@ -66,6 +66,10 @@
                 </button>
                 <button class="nav-btn" id="nav-report-btn" onclick="switchTab('report')">
                     <i class="fa-solid fa-file-shield"></i> Security Report
+                </button>
+                <!-- NEW ENTERPRISE ADMIN SOC CONSOLE NAV BUTTON -->
+                <button class="nav-btn admin-nav-btn" id="nav-admin-btn" onclick="switchTab('admin')">
+                    <i class="fa-solid fa-user-shield text-red"></i> Admin SOC Console
                 </button>
             </nav>
 
@@ -509,9 +513,164 @@
                 </div>
             </div>
         </section>
+
+        <!-- TAB 5: NEW ENTERPRISE ADMIN SOC CONSOLE -->
+        <section id="tab-admin" class="tab-page hidden">
+            <div class="page-title-box">
+                <h2><i class="fa-solid fa-user-shield text-red"></i> Enterprise Admin SOC Command Center</h2>
+                <p>Centralized Security Operations Center (SOC) management for organization-wide threat policies, firewall sinkholes, and AI engine tuning.</p>
+            </div>
+
+            <!-- DEPARTMENT RISK HEATMAP -->
+            <div class="card mb-20">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-sitemap text-cyan"></i> Organization Security Risk Heatmap</h3>
+                    <span class="badge badge-warning">Active Audit</span>
+                </div>
+                <div class="card-body">
+                    <div class="grid-4col" id="dept-heatmap-grid">
+                        <div class="dept-card danger">
+                            <div class="dept-header">
+                                <span class="dept-title">Finance Department</span>
+                                <span class="dept-risk text-red">88% Risk</span>
+                            </div>
+                            <div class="dept-progress"><div class="dept-bar red" style="width: 88%;"></div></div>
+                            <p class="dept-sub">3 Voice Deepfake Scams Detected</p>
+                        </div>
+
+                        <div class="dept-card warning">
+                            <div class="dept-header">
+                                <span class="dept-title">Human Resources</span>
+                                <span class="dept-risk text-yellow">62% Risk</span>
+                            </div>
+                            <div class="dept-progress"><div class="dept-bar yellow" style="width: 62%;"></div></div>
+                            <p class="dept-sub">5 Phishing Payroll Links Blocked</p>
+                        </div>
+
+                        <div class="dept-card success">
+                            <div class="dept-header">
+                                <span class="dept-title">Engineering / DevOps</span>
+                                <span class="dept-risk text-green">15% Risk</span>
+                            </div>
+                            <div class="dept-progress"><div class="dept-bar green" style="width: 15%;"></div></div>
+                            <p class="dept-sub">Passkey Multi-Factor Enforced</p>
+                        </div>
+
+                        <div class="dept-card success">
+                            <div class="dept-header">
+                                <span class="dept-title">Sales & Operations</span>
+                                <span class="dept-risk text-green">22% Risk</span>
+                            </div>
+                            <div class="dept-progress"><div class="dept-bar green" style="width: 22%;"></div></div>
+                            <p class="dept-sub">98% Sandbox Training Passed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2col mb-20">
+                <!-- AI ENGINE & FIREWALL POLICY CONTROLS -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-sliders text-purple"></i> AI Engine & Policy Controls</h3>
+                        <span class="badge">Admin Governance</span>
+                    </div>
+                    <div class="card-body admin-controls-box">
+                        <div class="control-group">
+                            <label>Heuristic Strictness Sensitivity:</label>
+                            <div class="slider-wrapper">
+                                <input type="range" id="slider-heuristic" min="1" max="3" value="2" onchange="updatePolicySetting('heuristic', this.value)">
+                                <span class="slider-val-badge" id="val-heuristic">Balanced</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group mt-15">
+                            <label>Deepfake Voice Threshold:</label>
+                            <div class="slider-wrapper">
+                                <input type="range" id="slider-deepfake" min="1" max="2" value="1" onchange="updatePolicySetting('deepfake', this.value)">
+                                <span class="slider-val-badge" id="val-deepfake">Strict (High Sensitivity)</span>
+                            </div>
+                        </div>
+
+                        <div class="control-group mt-15 toggle-group">
+                            <div>
+                                <strong>Automatic DNS Sinkhole Enforcement</strong>
+                                <p class="text-dim text-xs">Auto-block critical phishing nodes on corporate firewall</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-sinkhole" checked onchange="updatePolicySetting('sinkhole', this.checked)">
+                                <span class="slider-round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CAMPAIGN CREATOR -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-bullhorn text-yellow"></i> Deploy Phish Sandbox Campaign</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="admin-campaign-form">
+                            <input type="text" id="campaign-title" placeholder="Campaign Name (e.g. Q3 Executive Tax Phishing Test)">
+                            <textarea id="campaign-body" rows="3" placeholder="Target scenario text or spoofed email subject..."></textarea>
+                            <button class="btn btn-primary mt-10" onclick="deployPhishCampaign()">
+                                <i class="fa-solid fa-paper-plane"></i> Deploy Employee Test Campaign
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIREWALL SINKHOLE BLACKLIST TABLE -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-ban text-red"></i> Global Firewall Threat Sinkhole Rules</h3>
+                    <span class="badge badge-danger">12 Active Nodes</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="cyber-table">
+                            <thead>
+                                <tr>
+                                    <th>Malicious Domain / IP</th>
+                                    <th>Threat Category</th>
+                                    <th>Detected Date</th>
+                                    <th>Action Enforced</th>
+                                    <th>Admin Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sinkhole-table-body">
+                                <tr>
+                                    <td class="font-mono text-red">paypa1-secure-login-verify.com</td>
+                                    <td>Typosquatting / Impersonation</td>
+                                    <td>2026-09-20 02:14 UTC</td>
+                                    <td><span class="badge badge-danger">DNS SINKHOLED</span></td>
+                                    <td><button class="sm-btn danger" onclick="removeSinkhole(this)">Remove</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-red">45.14.224.12</td>
+                                    <td>Credential Harvest Node</td>
+                                    <td>2026-09-20 01:50 UTC</td>
+                                    <td><span class="badge badge-danger">IP BLOCKED</span></td>
+                                    <td><button class="sm-btn danger" onclick="removeSinkhole(this)">Remove</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-mono text-red">bofam-fraud-protection.xyz</td>
+                                    <td>Financial Phishing Scam</td>
+                                    <td>2026-09-19 23:10 UTC</td>
+                                    <td><span class="badge badge-danger">DNS SINKHOLED</span></td>
+                                    <td><button class="sm-btn danger" onclick="removeSinkhole(this)">Remove</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- FLOATING AI SENTINEL AGENT CHATBOT WITH GEMINI API INTEGRATION -->
+    <!-- FLOATING AI SENTINEL AGENT CHATBOT -->
     <div class="sentinel-chat-widget">
         <button class="chat-toggle-btn" onclick="toggleChatWidget()">
             <i class="fa-solid fa-robot"></i>
