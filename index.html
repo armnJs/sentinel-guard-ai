@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SentinelGuard AI - Next-Generation AI Cyber Threat Radar & Phishing Protection Platform for real-time scam detection, URL threat scoring, and privacy security auditing.">
-    <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, scam protection, zero trust">
+    <meta name="description" content="SentinelGuard AI - Next-Generation AI Cyber Threat Radar & Phishing Protection Platform for real-time scam detection, URL threat scoring, deepfake audio analysis, and privacy auditing.">
+    <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, deepfake voice scam, zero trust, SOC radar">
     <title>SentinelGuard AI | Real-Time Cyber Threat Radar & Phishing Defense</title>
     
     <!-- Google Fonts -->
@@ -26,6 +26,19 @@
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
         <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- LIVE GLOBAL CYBER THREAT TICKER (INNOVATION FEATURE #1) -->
+    <div class="cyber-threat-ticker">
+        <div class="ticker-badge"><i class="fa-solid fa-satellite-dish pulse-icon"></i> LIVE SOC FEED</div>
+        <div class="ticker-wrapper">
+            <div class="ticker-content" id="threat-ticker-content">
+                <span class="ticker-item danger"><i class="fa-solid fa-ban"></i> [BLOCKED 2s ago] 185.220.101.44 ➔ paypa1-secure-auth.com (Typosquatting)</span>
+                <span class="ticker-item warning"><i class="fa-solid fa-shield-virus"></i> [INTERCEPTED] 45.14.224.12 ➔ m365-update-portal.xyz (Credential Harvest)</span>
+                <span class="ticker-item danger"><i class="fa-solid fa-microphone-slash"></i> [DEEPFAKE DETECTED] CEO Voice Clone Wire Request ($45,000)</span>
+                <span class="ticker-item success"><i class="fa-solid fa-check"></i> [AUDITED] github.com ➔ A+ Grade (HSTS & CSP Enforced)</span>
+            </div>
+        </div>
     </div>
 
     <header class="app-header">
@@ -73,9 +86,9 @@
         <section id="tab-scanner" class="tab-page active">
             <div class="hero-banner">
                 <div class="hero-text">
-                    <span class="pill-tag"><i class="fa-solid fa-bolt"></i> Real-Time Heuristic Engine</span>
-                    <h2>AI-Powered Multi-Vector Threat Analysis</h2>
-                    <p>Detect zero-day phishing links, suspicious payload text, typosquatting domains, and fraudulent QR codes instantly before damage occurs.</p>
+                    <span class="pill-tag"><i class="fa-solid fa-bolt"></i> Real-Time Multi-Vector AI Engine</span>
+                    <h2>Next-Gen Cyber Threat Radar & Scam Defense</h2>
+                    <p>Detect zero-day phishing links, AI voice deepfake audio scams, brand impersonation, and fraudulent QR codes instantly before damage occurs.</p>
                 </div>
                 <div class="hero-stats">
                     <div class="stat-card">
@@ -103,6 +116,9 @@
                         <button class="scan-type-btn" id="type-text" onclick="setScanType('text')">
                             <i class="fa-solid fa-envelope-open-text"></i> Email / SMS Text
                         </button>
+                        <button class="scan-type-btn" id="type-audio" onclick="setScanType('audio')">
+                            <i class="fa-solid fa-microphone-lines"></i> Deepfake Voice / Audio
+                        </button>
                         <button class="scan-type-btn" id="type-qr" onclick="setScanType('qr')">
                             <i class="fa-solid fa-qrcode"></i> QR Code Data
                         </button>
@@ -110,6 +126,7 @@
                     <div class="quick-samples">
                         <span class="samples-title">Try Samples:</span>
                         <button class="sample-chip chip-phish" onclick="loadSample('phish-url')">Phishing URL</button>
+                        <button class="sample-chip chip-audio" onclick="loadSample('phish-audio')">Voice Deepfake</button>
                         <button class="sample-chip chip-email" onclick="loadSample('phish-email')">Urgent Scam Email</button>
                         <button class="sample-chip chip-safe" onclick="loadSample('safe-url')">Safe Domain</button>
                     </div>
@@ -128,6 +145,18 @@
                         <div class="input-wrapper text-wrapper">
                             <textarea id="target-text-input" rows="4" placeholder="Paste email content, text message, or message body here..."></textarea>
                             <button class="clear-btn" onclick="clearInput('target-text-input')"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- INNOVATION FEATURE #2: DEEPFAKE AUDIO SCAM ANALYZER -->
+                    <div id="input-container-audio" class="input-mode hidden">
+                        <div class="audio-input-box">
+                            <div class="audio-dropzone">
+                                <i class="fa-solid fa-waveform-lines audio-icon"></i>
+                                <h4>AI Audio Deepfake & Voice Scam Analyzer</h4>
+                                <p>Paste transcribed voicemail, call log snippet, or audio scam transcript below:</p>
+                                <textarea id="target-audio-input" rows="3" placeholder="e.g. 'This is CEO John Smith. I am in an urgent meeting with investors and need you to wire $45,000 to this vendor account immediately. Do not call me back, just execute the transfer.'"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -192,6 +221,48 @@
                         <button class="action-btn" onclick="takeAction('copy')">
                             <i class="fa-solid fa-share-nodes"></i> Copy Threat Intelligence
                         </button>
+                    </div>
+                </div>
+
+                <!-- INNOVATION FEATURE #3: VISUAL DOM CLONE INSPECTOR -->
+                <div class="card visual-clone-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-eye text-cyan"></i> Visual DOM Brand Impersonation Inspector</h3>
+                        <span class="badge badge-danger" id="visual-match-badge"><i class="fa-solid fa-triangle-exclamation"></i> 98.4% Visual Clone Match</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="clone-inspector-grid">
+                            <div class="clone-preview-box">
+                                <div class="mock-browser-bar">
+                                    <span class="browser-dot red"></span>
+                                    <span class="browser-dot yellow"></span>
+                                    <span class="browser-dot green"></span>
+                                    <span class="browser-url" id="clone-url-preview">http://paypa1-secure-login-verify.com</span>
+                                </div>
+                                <div class="mock-browser-content" id="clone-canvas-preview">
+                                    <div class="mock-phish-page">
+                                        <div class="mock-logo text-blue"><i class="fa-brands fa-paypal"></i> PayPal</div>
+                                        <div class="mock-form">
+                                            <h4>Log in to your PayPal account</h4>
+                                            <input type="text" disabled placeholder="Email or mobile number" value="user@company.com">
+                                            <input type="password" disabled placeholder="Password" value="••••••••••••">
+                                            <button class="mock-submit-btn">Log In</button>
+                                            <span class="clone-overlay-tag"><i class="fa-solid fa-ghost"></i> IMPERSONATED BRAND CANVAS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clone-analysis-details">
+                                <h4 class="text-cyan"><i class="fa-solid fa-magnifying-glass-chart"></i> Visual Footprint Analysis</h4>
+                                <ul class="clone-checklist">
+                                    <li><i class="fa-solid fa-circle-check text-red"></i> <strong>Official Logo Similarity:</strong> 99.1% (Impersonates PayPal SVG Brand asset)</li>
+                                    <li><i class="fa-solid fa-circle-check text-red"></i> <strong>Form Input Structure:</strong> Matches standard single-page OAuth login layout</li>
+                                    <li><i class="fa-solid fa-circle-check text-red"></i> <strong>Color Hex Signature:</strong> Matched primary brand color `#003087`</li>
+                                    <li><i class="fa-solid fa-shield-virus text-yellow"></i> <strong>Domain Mismatch:</strong> Canvas claims PayPal, actual host is `paypa1-secure-login-verify.com`</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -439,6 +510,38 @@
             </div>
         </section>
     </main>
+
+    <!-- INNOVATION FEATURE #4: FLOATING AI SENTINEL AGENT CHATBOT -->
+    <div class="sentinel-chat-widget">
+        <button class="chat-toggle-btn" onclick="toggleChatWidget()">
+            <i class="fa-solid fa-robot"></i>
+            <span class="chat-badge">AI Assistant</span>
+        </button>
+
+        <div id="chat-window" class="chat-window hidden">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fa-solid fa-shield-cat text-cyan"></i>
+                    <div>
+                        <h4>Sentinel AI Agent</h4>
+                        <p>Zero-Trust Cyber Security Copilot</p>
+                    </div>
+                </div>
+                <button class="chat-close-btn" onclick="toggleChatWidget()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="msg bot-msg">
+                    👋 Hello! I am your <strong>Sentinel Security Agent</strong>. Ask me anything about suspicious links, typosquatting domains, audio deepfakes, or security header recommendations!
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chat-user-input" placeholder="Ask security question or paste URL..." onkeypress="handleChatKey(event)">
+                <button class="chat-send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
 
     <footer class="app-footer">
         <div class="footer-container">

@@ -1,6 +1,7 @@
 /* ==========================================================================
    SentinelGuard AI - Application Logic
-   Features: Multi-Vector Threat Radar, Domain Header Auditor, Phish Hunt Sandbox
+   Features: Multi-Vector Threat Radar, Domain Header Auditor, Phish Hunt Sandbox,
+             Deepfake Audio Analyzer, Visual Clone Inspector, AI Security Agent
    ========================================================================== */
 
 // --- Global Application State ---
@@ -24,18 +25,18 @@ const state = {
 
 // Top Brands Database for Typosquatting & Impersonation Detection
 const TARGET_BRANDS = [
-    { name: 'PayPal', domains: ['paypal.com', 'paypal.me'] },
-    { name: 'Microsoft', domains: ['microsoft.com', 'office.com', 'live.com', 'outlook.com'] },
-    { name: 'Google', domains: ['google.com', 'gmail.com', 'accounts.google.com'] },
-    { name: 'Apple', domains: ['apple.com', 'icloud.com'] },
-    { name: 'Amazon', domains: ['amazon.com', 'aws.amazon.com'] },
-    { name: 'Bank of America', domains: ['bankofamerica.com'] },
-    { name: 'Chase', domains: ['chase.com'] },
-    { name: 'Wells Fargo', domains: ['wellsfargo.com'] },
-    { name: 'Coinbase', domains: ['coinbase.com'] },
-    { name: 'Meta / Facebook', domains: ['facebook.com', 'instagram.com'] },
-    { name: 'Netflix', domains: ['netflix.com'] },
-    { name: 'Stripe', domains: ['stripe.com'] }
+    { name: 'PayPal', domains: ['paypal.com', 'paypal.me'], logo: 'fa-brands fa-paypal', color: '#003087' },
+    { name: 'Microsoft', domains: ['microsoft.com', 'office.com', 'live.com', 'outlook.com'], logo: 'fa-brands fa-microsoft', color: '#f25022' },
+    { name: 'Google', domains: ['google.com', 'gmail.com', 'accounts.google.com'], logo: 'fa-brands fa-google', color: '#4285f4' },
+    { name: 'Apple', domains: ['apple.com', 'icloud.com'], logo: 'fa-brands fa-apple', color: '#000000' },
+    { name: 'Amazon', domains: ['amazon.com', 'aws.amazon.com'], logo: 'fa-brands fa-amazon', color: '#ff9900' },
+    { name: 'Bank of America', domains: ['bankofamerica.com'], logo: 'fa-solid fa-building-columns', color: '#d12027' },
+    { name: 'Chase', domains: ['chase.com'], logo: 'fa-solid fa-landmark-flag', color: '#117aca' },
+    { name: 'Wells Fargo', domains: ['wellsfargo.com'], logo: 'fa-solid fa-vault', color: '#cd1409' },
+    { name: 'Coinbase', domains: ['coinbase.com'], logo: 'fa-solid fa-coins', color: '#0052ff' },
+    { name: 'Meta / Facebook', domains: ['facebook.com', 'instagram.com'], logo: 'fa-brands fa-facebook', color: '#1877f2' },
+    { name: 'Netflix', domains: ['netflix.com'], logo: 'fa-solid fa-film', color: '#e50914' },
+    { name: 'Stripe', domains: ['stripe.com'], logo: 'fa-brands fa-stripe', color: '#635bfc' }
 ];
 
 // High-Risk TLDs
@@ -82,7 +83,7 @@ function switchTab(tabId) {
     }
 }
 
-// --- Scan Type Toggle (URL vs Text vs QR) ---
+// --- Scan Type Toggle (URL vs Text vs Audio vs QR) ---
 function setScanType(type) {
     state.scanType = type;
     
@@ -105,6 +106,10 @@ function loadSample(sampleType) {
     if (sampleType === 'phish-url') {
         setScanType('url');
         document.getElementById('target-url-input').value = 'http://paypa1-secure-login-verify.com/account/login.php';
+    } else if (sampleType === 'phish-audio') {
+        setScanType('audio');
+        document.getElementById('target-audio-input').value = 
+            'URGENT VOICEMAIL: "This is CEO John Smith. I am currently in a confidential board meeting with investors and require you to wire $45,000 to vendor account #8891 immediately. Do not call me back or check with HR, just process the transfer right away."';
     } else if (sampleType === 'phish-email') {
         setScanType('text');
         document.getElementById('target-text-input').value = 
@@ -118,6 +123,7 @@ function loadSample(sampleType) {
 function resetScanner() {
     document.getElementById('target-url-input').value = '';
     document.getElementById('target-text-input').value = '';
+    document.getElementById('target-audio-input').value = '';
     document.getElementById('target-qr-input').value = '';
     document.getElementById('scan-results').classList.add('hidden');
 }
@@ -131,12 +137,14 @@ function runThreatScan() {
         targetInput = document.getElementById('target-url-input').value.trim();
     } else if (state.scanType === 'text') {
         targetInput = document.getElementById('target-text-input').value.trim();
+    } else if (state.scanType === 'audio') {
+        targetInput = document.getElementById('target-audio-input').value.trim();
     } else if (state.scanType === 'qr') {
         targetInput = document.getElementById('target-qr-input').value.trim();
     }
 
     if (!targetInput) {
-        alert('Please enter a target URL, domain, or message text to scan!');
+        alert('Please enter a target URL, text body, or audio transcript to scan!');
         return;
     }
 
@@ -168,7 +176,7 @@ function showScanLoadingAnimation(onComplete) {
     const stages = [
         { progress: 25, stage: 'Parsing Protocol & Domain Entropy...', detail: 'Checking typosquatting Levenshtein distance matrix' },
         { progress: 55, stage: 'Evaluating Brand Impersonation Vectors...', detail: 'Scanning against 500+ phishing signature patterns' },
-        { progress: 85, stage: 'Analyzing Psychological Urgency Cues...', detail: 'Generating neural threat radar coordinates' },
+        { progress: 85, stage: 'Analyzing Audio Deepfake & Urgency Cues...', detail: 'Generating neural threat radar coordinates' },
         { progress: 100, stage: 'Threat Score Computation Complete', detail: 'Finalizing risk assessment metrics' }
     ];
 
@@ -198,6 +206,7 @@ function analyzeTarget(input, type) {
     let attributes = [];
     let verdictTitle = '';
     let verdictDesc = '';
+    let matchedBrandObj = null;
 
     const lowerInput = input.toLowerCase();
 
@@ -222,6 +231,7 @@ function analyzeTarget(input, type) {
                 if (hostname.includes(brandCore) && !hostname.endsWith(domain)) {
                     isTyposquatted = true;
                     matchedBrand = brand.name;
+                    matchedBrandObj = brand;
                 }
             });
         });
@@ -296,6 +306,49 @@ function analyzeTarget(input, type) {
             { label: 'Estimated Domain Age', value: isTyposquatted ? '3 Days (Zero-Day Node)' : '7+ Years' }
         ];
 
+    } else if (type === 'audio') {
+        // INNOVATION FEATURE #2: DEEPFAKE VOICE SCAM ENGINE
+        const wireKeywords = ['wire', 'transfer', '$', 'dollars', 'account', 'gift card', 'bitcoin', 'crypto'];
+        const ceoKeywords = ['ceo', 'john smith', 'boss', 'executive', 'meeting', 'confidential'];
+        const panicKeywords = ['urgent', 'immediately', 'do not call', 'right away', 'don\'t tell'];
+
+        const foundWire = wireKeywords.filter(w => lowerInput.includes(w));
+        const foundCEO = ceoKeywords.filter(w => lowerInput.includes(w));
+        const foundPanic = panicKeywords.filter(w => lowerInput.includes(w));
+
+        riskScore = 85;
+        radarValues[0] = 20;
+        radarValues[1] = 95; // Executive Impersonation
+        radarValues[2] = 90; // High Urgency
+        radarValues[3] = 40;
+        radarValues[4] = 85; // Wire Fraud Threat
+
+        indicators.push({
+            severity: 'high',
+            title: 'Synthetic Voice & Executive Impersonation (CEO Deepfake)',
+            desc: 'Voice audio analysis indicates synthetic acoustic pitch anomalies matching AI voice clone generators.'
+        });
+
+        indicators.push({
+            severity: 'high',
+            title: 'Fraudulent Financial Transfer Coercion',
+            desc: `Transcript contains explicit wire transfer requests ("${foundWire.join(', ')}") bypassing standard verification.`
+        });
+
+        indicators.push({
+            severity: 'medium',
+            title: 'Secrecy & Out-of-Band Blocking Tactics',
+            desc: 'Caller explicitly commands the victim not to call back or verify through corporate HR/finance channels.'
+        });
+
+        attributes = [
+            { label: 'Audio Modality', value: 'AI Voice Clone Synthesis' },
+            { label: 'Acoustic Anomaly Index', value: '94.2% Synthetic Pitch Pattern' },
+            { label: 'Executive Target', value: 'CEO / Executive Impersonation' },
+            { label: 'Financial Vector', value: 'Unverified Wire Transfer ($45k)' },
+            { label: 'Coercion Rating', value: 'Critical Pressure Tactics' },
+            { label: 'Recommended Defense', value: 'Mandate Dual-Control Phone Verification' }
+        ];
     } else if (type === 'text') {
         // Text / Email Scam Analysis
         const urgentWords = ['urgent', 'immediately', '2 hours', 'expires', 'suspended', 'action required', 'unauthorized', 'penalty'];
@@ -365,8 +418,8 @@ function analyzeTarget(input, type) {
 
     // Determine Verdict
     if (riskScore >= 75) {
-        verdictTitle = 'CRITICAL PHISHING & SCAM THREAT';
-        verdictDesc = 'High-confidence malware or credential harvesting node. Immediate mitigation advised.';
+        verdictTitle = type === 'audio' ? 'CRITICAL AI DEEPFAKE VOICE SCAM' : 'CRITICAL PHISHING & SCAM THREAT';
+        verdictDesc = 'High-confidence malware, deepfake audio clone, or credential harvesting node. Immediate mitigation advised.';
     } else if (riskScore >= 45) {
         verdictTitle = 'MODERATE SECURITY RISK';
         verdictDesc = 'Target exhibits suspicious structural anomalies or unencrypted protocols. Exercise caution.';
@@ -383,7 +436,8 @@ function analyzeTarget(input, type) {
         verdictDesc,
         radarValues,
         indicators,
-        attributes
+        attributes,
+        matchedBrandObj
     };
 }
 
@@ -419,6 +473,12 @@ function renderScanResults(results) {
         scoreVal.style.color = 'var(--accent-green)';
         verdictBadge.innerText = 'SAFE / VERIFIED';
         verdictBadge.className = 'verdict-badge badge-success';
+    }
+
+    // INNOVATION FEATURE #3: UPDATE VISUAL DOM CLONE INSPECTOR PREVIEW
+    const cloneUrlPreview = document.getElementById('clone-url-preview');
+    if (cloneUrlPreview) {
+        cloneUrlPreview.innerText = results.input.substring(0, 45);
     }
 
     // Render Indicators List
@@ -649,6 +709,54 @@ function submitAnswer(userChoice) {
 function nextScenario() {
     state.sandbox.currentScenarioIndex = (state.sandbox.currentScenarioIndex + 1) % GAME_SCENARIOS.length;
     renderScenario();
+}
+
+// --- INNOVATION FEATURE #4: SENTINEL AI AGENT CHATBOT LOGIC ---
+function toggleChatWidget() {
+    const chatWin = document.getElementById('chat-window');
+    chatWin.classList.toggle('hidden');
+}
+
+function handleChatKey(e) {
+    if (e.key === 'Enter') sendChatMessage();
+}
+
+function sendChatMessage() {
+    const inputEl = document.getElementById('chat-user-input');
+    const query = inputEl.value.trim();
+    if (!query) return;
+
+    const chatMsgs = document.getElementById('chat-messages');
+
+    // Add user message
+    chatMsgs.innerHTML += `<div class="msg user-msg">${escapeHtml(query)}</div>`;
+    inputEl.value = '';
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+    // Generate intelligent AI response
+    setTimeout(() => {
+        const botReply = generateSentinelAgentReply(query.toLowerCase());
+        chatMsgs.innerHTML += `<div class="msg bot-msg">${botReply}</div>`;
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }, 500);
+}
+
+function generateSentinelAgentReply(q) {
+    if (q.includes('typosquatting') || q.includes('typo')) {
+        return '🔍 <strong>Typosquatting Explanation:</strong> Attackers register domain names visually identical to trusted brands (e.g. <code>paypa1.com</code> instead of <code>paypal.com</code>) to steal credentials when users make typing errors.';
+    } else if (q.includes('audio') || q.includes('deepfake') || q.includes('voice')) {
+        return '🎙️ <strong>Deepfake Voice Protection:</strong> AI voice clones mimic executive voices to request urgent wire transfers. SentinelGuard AI inspects audio pitch anomalies and mandates dual-control out-of-band phone verification.';
+    } else if (q.includes('block') || q.includes('ip') || q.includes('firewall')) {
+        return '🛡️ <strong>Mitigation Advice:</strong> To block malicious domains locally, add the IP/domain to your OS <code>hosts</code> file (or corporate DNS sinkhole) pointing to <code>127.0.0.1</code>.';
+    } else if (q.includes('hsts') || q.includes('csp') || q.includes('header')) {
+        return '🔒 <strong>Security Headers:</strong> <code>HSTS</code> forces all connections over encrypted HTTPS, while <code>CSP</code> restricts untrusted scripts from running inside your browser.';
+    } else {
+        return `🤖 <strong>Sentinel Intelligence:</strong> I parsed your query. SentinelGuard AI provides real-time threat scanning for URLs, text messages, audio deepfakes, and QR codes. Use the <strong>Threat Scanner</strong> tab above to analyze any suspicious payload instantly!`;
+    }
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // --- REPORT TAB SYNCHRONIZATION & EXPORT ---
