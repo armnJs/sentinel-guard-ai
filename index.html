@@ -25,6 +25,12 @@
     <link rel="stylesheet" href="src/style.css">
 </head>
 <body>
+    <!-- ACCESSIBILITY SKIP TO CONTENT LINK -->
+    <a href="#main-content" class="skip-to-content">Skip to Main Content</a>
+
+    <!-- REAL-TIME VIEWPORT SCROLL PROGRESS BAR -->
+    <div id="scroll-progress" class="scroll-progress-bar"></div>
+
     <div class="cyber-background">
         <div class="grid-overlay"></div>
         <div class="glow-orb orb-1"></div>
@@ -85,6 +91,13 @@
             </nav>
 
             <div class="header-status">
+                <button class="header-util-btn" id="site-search-btn" onclick="openModal('search-modal')" title="Quick Search (Ctrl+K)" aria-label="Quick Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span class="kbd-hint">Ctrl+K</span>
+                </button>
+                <button class="header-util-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
                 <div class="status-indicator online">
                     <span class="indicator-dot"></span>
                     <span class="status-text">SYSTEM ACTIVE</span>
@@ -96,7 +109,7 @@
         </div>
     </header>
 
-    <main class="app-content">
+    <main class="app-content" id="main-content">
         <!-- TAB 1: THREAT SCANNER -->
         <section id="tab-scanner" class="tab-page active">
             <div class="hero-banner">
@@ -671,10 +684,60 @@
                                     <td>Financial Phishing Scam</td>
                                     <td>2026-09-19 23:10 UTC</td>
                                     <td><span class="badge badge-danger">DNS SINKHOLED</span></td>
-                                    <td><button class="sm-btn danger" onclick="removeSinkhole(this)">Remove</button></td>
+                                    <td><button class="sm-btn danger" onclick="confirmRemoveSinkhole(this)">Remove</button></td>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CYBER SECURITY KNOWLEDGE BASE & FAQ ACCORDION -->
+        <section id="faq-section" class="faq-container mt-40">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-circle-question text-cyan"></i> Cyber Threat Defense Knowledge Base & FAQ</h3>
+                    <span class="badge badge-info"><i class="fa-solid fa-clock"></i> Last Updated: September 20, 2026</span>
+                </div>
+                <div class="card-body">
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-header" onclick="toggleFaq(this)">
+                                <span><i class="fa-solid fa-shield-virus text-cyan"></i> How does SentinelGuard AI detect Zero-Day Phishing URLs?</span>
+                                <i class="fa-solid fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-body">
+                                <p>SentinelGuard AI executes a 5-axis multi-vector analysis inspecting domain Levenshtein entropy distance against legitimate brand registries, SSL handshake parameters, visual DOM clone metrics, and autonomous Google Gemini LLM structural analysis.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-header" onclick="toggleFaq(this)">
+                                <span><i class="fa-solid fa-microphone-lines text-cyan"></i> What is Synthetic Voice Deepfake Audio Detection?</span>
+                                <i class="fa-solid fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-body">
+                                <p>AI voice cloning tools replicate human speech signatures to authorize fraudulent wire transfers. SentinelGuard AI analyzes spectral cadence anomalies, linguistic coercion markers, and out-of-band request verification protocols.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-header" onclick="toggleFaq(this)">
+                                <span><i class="fa-solid fa-key text-cyan"></i> How do Passkeys prevent Credential Harvesting scams?</span>
+                                <i class="fa-solid fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-body">
+                                <p>Passkeys utilize FIDO2 public-key cryptography bound strictly to origin domain names (e.g. <code>github.com</code>). Even if a user visits a spoofed link like <code>g1thub.com</code>, the browser cryptographic handshake fails safely, preventing credential exfiltration.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-header" onclick="toggleFaq(this)">
+                                <span><i class="fa-solid fa-triangle-exclamation text-cyan"></i> What action should I take if a link is flagged as Critical Threat?</span>
+                                <i class="fa-solid fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-body">
+                                <p>Immediately hit <strong>Block Destination</strong> to push the host IP to your DNS Sinkhole firewall rules, reset affected credentials from a safe isolated endpoint, and report the malicious URL payload to global threat feeds.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -786,6 +849,75 @@
             </div>
         </div>
     </footer>
+
+    <!-- QUICK SITE SEARCH MODAL (CTRL+K) -->
+    <div id="search-modal" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card search-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fa-solid fa-magnifying-glass text-cyan"></i> Instant Cyber Threat & Site Search</h3>
+                <button class="modal-close-btn" onclick="closeModal('search-modal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <div class="search-input-wrapper">
+                    <input type="text" id="site-search-input" placeholder="Type to search threat features, HSTS, Deepfake, SOC, or FAQ..." onkeyup="handleSiteSearch(this.value)">
+                </div>
+                <div class="search-results-list" id="search-results-list">
+                    <div class="search-item" onclick="closeModal('search-modal'); switchTab('scanner');">
+                        <i class="fa-solid fa-radar text-cyan"></i>
+                        <div><strong>Multi-Vector Threat Scanner</strong><p>Scan URLs, text messages, audio deepfakes, and QR codes.</p></div>
+                    </div>
+                    <div class="search-item" onclick="closeModal('search-modal'); switchTab('header-audit');">
+                        <i class="fa-solid fa-server text-green"></i>
+                        <div><strong>Domain Security Header Audit</strong><p>Audit HSTS, CSP, X-Frame-Options, CORS, and SSL grades.</p></div>
+                    </div>
+                    <div class="search-item" onclick="closeModal('search-modal'); switchTab('sandbox');">
+                        <i class="fa-solid fa-gamepad text-yellow"></i>
+                        <div><strong>Phish Hunt Gamified Sandbox</strong><p>Test employee scam recognition with interactive threat scenarios.</p></div>
+                    </div>
+                    <div class="search-item" onclick="closeModal('search-modal'); switchTab('admin');">
+                        <i class="fa-solid fa-user-shield text-red"></i>
+                        <div><strong>Enterprise Admin SOC Console</strong><p>Manage zero-trust firewall sinkhole rules and AI sensitivity sliders.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL FOR DESTRUCTIVE ACTIONS -->
+    <div id="modal-confirm-action" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card text-center">
+            <div class="legal-modal-header">
+                <h3 class="text-red"><i class="fa-solid fa-triangle-exclamation"></i> Confirm Security Action</h3>
+                <button class="modal-close-btn" onclick="closeModal('modal-confirm-action')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <p id="confirm-action-text">Are you sure you want to execute this destructive security action?</p>
+                <div class="modal-btn-row mt-20">
+                    <button class="btn btn-secondary" onclick="closeModal('modal-confirm-action')">Cancel</button>
+                    <button class="btn danger-btn" id="confirm-action-submit-btn">Confirm Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div id="cookie-banner" class="cookie-banner hidden">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <i class="fa-solid fa-cookie-bite text-cyan"></i>
+                <span>We use local session state to persist threat scans and security heuristic preferences without tracking personal data.</span>
+            </div>
+            <div class="cookie-actions">
+                <button class="btn btn-secondary sm-btn" onclick="acceptCookies('custom')">Preferences</button>
+                <button class="btn btn-primary sm-btn" onclick="acceptCookies('all')">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING BACK TO TOP BUTTON -->
+    <button id="back-to-top" class="back-to-top hidden" onclick="scrollToTop()" aria-label="Scroll back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
     <!-- Application Script -->
     <script src="src/app.js"></script>

@@ -1016,11 +1016,167 @@ function trigger404() {
     openModal('modal-404');
 }
 
-// Ensure dynamic copyright year on load
+// --- THEME TOGGLE (DARK / LIGHT HIGH CONTRAST) ---
+function initThemeToggle() {
+    const savedTheme = localStorage.getItem('sentinel_theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        const icon = document.getElementById('theme-icon');
+        if (icon) icon.className = 'fa-solid fa-moon';
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const icon = document.getElementById('theme-icon');
+    if (currentTheme === 'light') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('sentinel_theme', 'dark');
+        if (icon) icon.className = 'fa-solid fa-sun';
+        showToast('Switched to Cyber Dark Mode', 'info');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('sentinel_theme', 'light');
+        if (icon) icon.className = 'fa-solid fa-moon';
+        showToast('Switched to High-Contrast Light Mode', 'info');
+    }
+}
+
+// --- SCROLL PROGRESS BAR & BACK TO TOP ---
+function handleScrollEvents() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const bar = document.getElementById('scroll-progress');
+    if (bar) bar.style.width = scrolled + '%';
+
+    const backBtn = document.getElementById('back-to-top');
+    if (backBtn) {
+        if (winScroll > 300) backBtn.classList.remove('hidden');
+        else backBtn.classList.add('hidden');
+    }
+}
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- FAQ ACCORDION TOGGLE ---
+function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    if (!item) return;
+    item.classList.toggle('active');
+}
+
+// --- INSTANT SITE SEARCH (CTRL+K) ---
+function handleSiteSearch(q) {
+    const resultsContainer = document.getElementById('search-results-list');
+    if (!resultsContainer) return;
+    const query = q.toLowerCase().trim();
+    if (!query) {
+        resultsContainer.innerHTML = `
+            <div class="search-item" onclick="closeModal('search-modal'); switchTab('scanner');">
+                <i class="fa-solid fa-radar text-cyan"></i>
+                <div><strong>Multi-Vector Threat Scanner</strong><p>Scan URLs, text messages, audio deepfakes, and QR codes.</p></div>
+            </div>
+            <div class="search-item" onclick="closeModal('search-modal'); switchTab('header-audit');">
+                <i class="fa-solid fa-server text-green"></i>
+                <div><strong>Domain Security Header Audit</strong><p>Audit HSTS, CSP, X-Frame-Options, CORS, and SSL grades.</p></div>
+            </div>
+            <div class="search-item" onclick="closeModal('search-modal'); switchTab('sandbox');">
+                <i class="fa-solid fa-gamepad text-yellow"></i>
+                <div><strong>Phish Hunt Gamified Sandbox</strong><p>Test employee scam recognition with interactive threat scenarios.</p></div>
+            </div>
+            <div class="search-item" onclick="closeModal('search-modal'); switchTab('admin');">
+                <i class="fa-solid fa-user-shield text-red"></i>
+                <div><strong>Enterprise Admin SOC Console</strong><p>Manage zero-trust firewall sinkhole rules and AI sensitivity sliders.</p></div>
+            </div>
+        `;
+        return;
+    }
+
+    const items = [
+        { title: 'Multi-Vector Threat Scanner', desc: 'Scan suspicious URLs, SMS phishing text, deepfake voice audio, and QR codes.', tab: 'scanner', icon: 'fa-radar text-cyan' },
+        { title: 'Domain Security Header Audit', desc: 'Inspect Strict-Transport-Security (HSTS), CSP, X-Frame-Options, CORS headers.', tab: 'header-audit', icon: 'fa-server text-green' },
+        { title: 'Phish Hunt Sandbox', desc: 'Interactive phish simulation game with spear phishing and credential harvesting levels.', tab: 'sandbox', icon: 'fa-gamepad text-yellow' },
+        { title: 'Security Incident Report', desc: 'Export detailed JSON vulnerability reports and printable SOC documentation.', tab: 'report', icon: 'fa-file-shield text-purple' },
+        { title: 'Enterprise Admin SOC Console', desc: 'Organization threat heatmaps, AI threshold sliders, and DNS Sinkhole rules.', tab: 'admin', icon: 'fa-user-shield text-red' },
+        { title: 'FAQ & Cyber Knowledge Base', desc: 'Learn how zero-day phishing, synthetic audio, and passkeys operate.', tab: 'scanner', icon: 'fa-circle-question text-cyan' }
+    ];
+
+    const matched = items.filter(i => i.title.toLowerCase().includes(query) || i.desc.toLowerCase().includes(query));
+    if (matched.length === 0) {
+        resultsContainer.innerHTML = `<div class="search-item"><i class="fa-solid fa-triangle-exclamation text-yellow"></i><div><strong>No matching security features found</strong><p>Try searching for "HSTS", "Deepfake", "Domain", or "SOC".</p></div></div>`;
+    } else {
+        resultsContainer.innerHTML = matched.map(m => `
+            <div class="search-item" onclick="closeModal('search-modal'); switchTab('${m.tab}')">
+                <i class="fa-solid ${m.icon}"></i>
+                <div><strong>${escapeHtml(m.title)}</strong><p>${escapeHtml(m.desc)}</p></div>
+            </div>
+        `).join('');
+    }
+}
+
+// --- DESTRUCTIVE ACTION CONFIRMATION MODAL ---
+let currentTargetRow = null;
+function confirmRemoveSinkhole(btn) {
+    currentTargetRow = btn.closest('tr');
+    const domain = currentTargetRow ? currentTargetRow.querySelector('td:nth-child(2)')?.innerText : 'Selected Domain';
+    document.getElementById('confirm-action-text').innerHTML = `Are you sure you want to remove the DNS sinkhole firewall block rule for <code>${escapeHtml(domain)}</code>?`;
+    document.getElementById('confirm-action-submit-btn').onclick = () => {
+        if (currentTargetRow) currentTargetRow.remove();
+        closeModal('modal-confirm-action');
+        showToast(`DNS Sinkhole rule for ${domain} removed.`, 'info');
+    };
+    openModal('modal-confirm-action');
+}
+
+// --- COOKIE CONSENT BANNER ---
+function initCookieBanner() {
+    const consent = localStorage.getItem('sentinel_cookie_consent');
+    if (!consent) {
+        document.getElementById('cookie-banner')?.classList.remove('hidden');
+    }
+}
+
+function acceptCookies(type) {
+    localStorage.setItem('sentinel_cookie_consent', type);
+    document.getElementById('cookie-banner')?.classList.add('hidden');
+    showToast(type === 'all' ? 'Cookie preferences saved (Accept All).' : 'Custom cookie preferences saved.', 'success');
+}
+
+// --- UTM PARAMETER TRACKING LOGIC ---
+function parseUtmParameters() {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('utm_source');
+    const medium = params.get('utm_medium');
+    const campaign = params.get('utm_campaign');
+    if (source || medium || campaign) {
+        console.log(`UTM Tracking Logged: source=${source}, medium=${medium}, campaign=${campaign}`);
+    }
+}
+
+// Ensure dynamic copyright year on load and initialize listeners
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
+    initCookieBanner();
+    parseUtmParameters();
+    window.addEventListener('scroll', handleScrollEvents);
+    
+    // Keyboard shortcuts listener
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            openModal('search-modal');
+        } else if (e.key === 'Escape') {
+            ['search-modal', 'modal-confirm-action', 'modal-404', 'modal-terms', 'modal-privacy', 'modal-ftc'].forEach(closeModal);
+        }
+    });
+
     const yearEl = document.getElementById('curr-year');
     if (yearEl) {
         yearEl.innerText = new Date().getFullYear();
     }
 });
+
 

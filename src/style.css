@@ -1461,3 +1461,206 @@ input:checked + .slider-round:before { transform: translateX(22px); }
 .text-accent-green { color: var(--accent-green); }
 .text-dim { color: var(--text-dim); }
 .border-bottom { border-bottom: 1px solid var(--border-color); }
+
+/* Accessibility Skip Link */
+.skip-to-content {
+    position: absolute;
+    top: -50px;
+    left: 10px;
+    background: var(--accent-cyan);
+    color: #000;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    border-radius: 6px;
+    z-index: 10000;
+    transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+    top: 10px;
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+    width: 0%;
+    z-index: 10001;
+    transition: width 0.1s linear;
+}
+
+/* High Contrast Light Mode Variables */
+[data-theme="light"] {
+    --bg-dark: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-card-hover: rgba(241, 245, 249, 0.95);
+    --border-color: rgba(203, 213, 225, 0.8);
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-dim: #64748b;
+    --glow-cyan: 0 0 15px rgba(2, 132, 199, 0.2);
+}
+
+/* Header Utilities */
+.header-util-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.45rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+}
+.header-util-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--accent-cyan);
+}
+.kbd-hint {
+    background: rgba(255, 255, 255, 0.1);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    color: var(--text-dim);
+}
+
+/* FAQ Accordion */
+.faq-container { margin-top: 2.5rem; }
+.faq-accordion { display: flex; flex-direction: column; gap: 0.8rem; }
+.faq-item {
+    background: rgba(7, 9, 19, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: var(--transition-fast);
+}
+.faq-header {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.faq-header:hover { background: rgba(255, 255, 255, 0.03); color: var(--accent-cyan); }
+.faq-icon { transition: transform 0.3s ease; color: var(--text-dim); }
+.faq-item.active .faq-icon { transform: rotate(180deg); color: var(--accent-cyan); }
+.faq-body {
+    padding: 0 1.25rem 1rem 1.25rem;
+    display: none;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+}
+.faq-item.active .faq-body { display: block; }
+
+/* Quick Search Modal */
+.search-modal-card { max-width: 600px; width: 90%; }
+.search-input-wrapper input {
+    width: 100%;
+    background: rgba(7, 9, 19, 0.8);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 10px;
+    padding: 0.85rem 1.2rem;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    outline: none;
+}
+.search-results-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 320px;
+    overflow-y: auto;
+}
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.search-item:hover {
+    background: rgba(0, 243, 255, 0.08);
+    border-color: var(--accent-cyan);
+}
+.search-item i { font-size: 1.2rem; }
+.search-item strong { display: block; font-size: 0.9rem; }
+.search-item p { margin: 0; font-size: 0.78rem; color: var(--text-dim); }
+
+/* Cookie Banner */
+.cookie-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    z-index: 9999;
+}
+.cookie-content { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.cookie-text { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); flex: 1; min-width: 250px; }
+.cookie-actions { display: flex; gap: 0.5rem; }
+
+/* Back to Top */
+.back-to-top {
+    position: fixed;
+    bottom: 85px;
+    right: 25px;
+    background: rgba(0, 243, 255, 0.15);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+    z-index: 999;
+    transition: var(--transition-fast);
+}
+.back-to-top:hover {
+    background: var(--accent-cyan);
+    color: #000;
+    transform: translateY(-3px);
+}
+
+/* Dedicated Print Stylesheet */
+@media print {
+    body { background: #fff !important; color: #000 !important; }
+    .cyber-background, .cyber-threat-ticker, .app-header, .sentinel-chat-widget, .legal-modal-backdrop, .cookie-banner, .back-to-top, .scanner-actions, .quick-samples { display: none !important; }
+    .card { border: 1px solid #ccc !important; background: #fff !important; box-shadow: none !important; color: #000 !important; }
+    .text-cyan, .text-blue, .text-purple, .text-yellow, .text-green, .text-red { color: #000 !important; }
+}
+
