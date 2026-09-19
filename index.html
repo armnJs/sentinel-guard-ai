@@ -28,7 +28,7 @@
         <div class="glow-orb orb-3"></div>
     </div>
 
-    <!-- LIVE GLOBAL CYBER THREAT TICKER (INNOVATION FEATURE #1) -->
+    <!-- LIVE GLOBAL CYBER THREAT TICKER -->
     <div class="cyber-threat-ticker">
         <div class="ticker-badge"><i class="fa-solid fa-satellite-dish pulse-icon"></i> LIVE SOC FEED</div>
         <div class="ticker-wrapper">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
 
-                    <!-- INNOVATION FEATURE #2: DEEPFAKE AUDIO SCAM ANALYZER -->
+                    <!-- DEEPFAKE AUDIO SCAM ANALYZER -->
                     <div id="input-container-audio" class="input-mode hidden">
                         <div class="audio-input-box">
                             <div class="audio-dropzone">
@@ -224,7 +224,7 @@
                     </div>
                 </div>
 
-                <!-- INNOVATION FEATURE #3: VISUAL DOM CLONE INSPECTOR -->
+                <!-- VISUAL DOM CLONE INSPECTOR -->
                 <div class="card visual-clone-card">
                     <div class="card-header">
                         <h3><i class="fa-solid fa-eye text-cyan"></i> Visual DOM Brand Impersonation Inspector</h3>
@@ -511,7 +511,7 @@
         </section>
     </main>
 
-    <!-- INNOVATION FEATURE #4: FLOATING AI SENTINEL AGENT CHATBOT -->
+    <!-- FLOATING AI SENTINEL AGENT CHATBOT WITH GEMINI API INTEGRATION -->
     <div class="sentinel-chat-widget">
         <button class="chat-toggle-btn" onclick="toggleChatWidget()">
             <i class="fa-solid fa-robot"></i>
@@ -524,15 +524,18 @@
                     <i class="fa-solid fa-shield-cat text-cyan"></i>
                     <div>
                         <h4>Sentinel AI Agent</h4>
-                        <p>Zero-Trust Cyber Security Copilot</p>
+                        <p id="chat-engine-status"><span class="engine-badge green">Gemini 1.5/2.0 API</span></p>
                     </div>
                 </div>
-                <button class="chat-close-btn" onclick="toggleChatWidget()"><i class="fa-solid fa-xmark"></i></button>
+                <div class="chat-header-actions">
+                    <button class="chat-key-btn" title="Configure Gemini API Key" onclick="promptGeminiApiKey()"><i class="fa-solid fa-key"></i></button>
+                    <button class="chat-close-btn" onclick="toggleChatWidget()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
             </div>
 
             <div class="chat-messages" id="chat-messages">
                 <div class="msg bot-msg">
-                    👋 Hello! I am your <strong>Sentinel Security Agent</strong>. Ask me anything about suspicious links, typosquatting domains, audio deepfakes, or security header recommendations!
+                    👋 Hello! I am your <strong>Sentinel Security Agent</strong> powered by Google Gemini AI. Ask me any cybersecurity question, paste suspicious links, or inquire about threat remediation steps!
                 </div>
             </div>
 
@@ -549,7 +552,7 @@
                 <i class="fa-solid fa-shield-halved"></i> <strong>SentinelGuard AI</strong> &copy; 2026 | Developed for TLN Cybersecurity Challenge 2026
             </div>
             <div class="footer-right">
-                <span class="footer-tag"><i class="fa-solid fa-code"></i> HTML5 + JS + CSS Grid</span>
+                <span class="footer-tag"><i class="fa-solid fa-code"></i> HTML5 + JS + Gemini API</span>
                 <span class="footer-tag"><i class="fa-solid fa-brain"></i> Zero-Trust Threat Intelligence</span>
             </div>
         </div>
