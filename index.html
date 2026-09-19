@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SentinelGuard AI - Next-Generation AI Cyber Threat Radar & Phishing Protection Platform for real-time scam detection, URL threat scoring, deepfake audio analysis, and privacy auditing.">
+    <meta name="description" content="SentinelGuard AI - Enterprise Zero-Trust Cyber Threat Radar & Phishing Defense Platform for real-time scam detection, URL threat scoring, deepfake audio analysis, and domain security auditing.">
     <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, deepfake voice scam, zero trust, SOC radar, enterprise security">
-    <title>SentinelGuard AI | Real-Time Cyber Threat Radar & Phishing Defense</title>
+    <meta name="author" content="SentinelGuard Cyber Security Team">
+    <title>SentinelGuard AI | Enterprise Cyber Threat Radar & Phishing Defense</title>
     
+    <!-- Embedded SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%2300f3ff' d='M256 0L32 96v160c0 141.4 96.7 266.3 224 296 127.3-29.7 224-154.6 224-296V96L256 0zm0 432c-97.2-25.6-160-120.3-160-224V128l160-64 160 64v80c0 103.7-62.8 198.4-160 224z'/></svg>">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,22 +32,25 @@
         <div class="glow-orb orb-3"></div>
     </div>
 
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
     <!-- LIVE GLOBAL CYBER THREAT TICKER -->
-    <div class="cyber-threat-ticker">
+    <div class="cyber-threat-ticker" aria-label="Live Threat Stream">
         <div class="ticker-badge"><i class="fa-solid fa-satellite-dish pulse-icon"></i> LIVE SOC FEED</div>
         <div class="ticker-wrapper">
             <div class="ticker-content" id="threat-ticker-content">
-                <span class="ticker-item danger"><i class="fa-solid fa-ban"></i> [BLOCKED 2s ago] 185.220.101.44 ➔ paypa1-secure-auth.com (Typosquatting)</span>
+                <span class="ticker-item danger"><i class="fa-solid fa-ban"></i> [BLOCKED 2s ago] 185.220.101.44 ➔ paypa1-secure-auth.com (Typosquatting Node)</span>
                 <span class="ticker-item warning"><i class="fa-solid fa-shield-virus"></i> [INTERCEPTED] 45.14.224.12 ➔ m365-update-portal.xyz (Credential Harvest)</span>
-                <span class="ticker-item danger"><i class="fa-solid fa-microphone-slash"></i> [DEEPFAKE DETECTED] CEO Voice Clone Wire Request ($45,000)</span>
-                <span class="ticker-item success"><i class="fa-solid fa-check"></i> [AUDITED] github.com ➔ A+ Grade (HSTS & CSP Enforced)</span>
+                <span class="ticker-item danger"><i class="fa-solid fa-microphone-slash"></i> [DEEPFAKE DETECTED] Synthetic CEO Voice Wire Fraud Request ($45,000)</span>
+                <span class="ticker-item success"><i class="fa-solid fa-circle-check"></i> [AUDITED] github.com ➔ A+ Grade (HSTS & CSP Enforced)</span>
             </div>
         </div>
     </div>
 
     <header class="app-header">
         <div class="header-container">
-            <div class="brand">
+            <a href="index.html" class="brand" aria-label="SentinelGuard AI Homepage">
                 <div class="brand-logo">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span class="pulse-dot"></span>
@@ -52,9 +59,14 @@
                     <h1>SentinelGuard <span class="badge-ai">AI</span></h1>
                     <p class="tagline">Next-Gen Cyber Threat Radar & Scam Defense</p>
                 </div>
-            </div>
+            </a>
 
-            <nav class="main-nav">
+            <!-- MOBILE HAMBURGER MENU BUTTON -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <nav class="main-nav" id="main-nav">
                 <button class="nav-btn active" id="nav-scanner-btn" onclick="switchTab('scanner')">
                     <i class="fa-solid fa-radar"></i> Threat Scanner
                 </button>
@@ -67,7 +79,6 @@
                 <button class="nav-btn" id="nav-report-btn" onclick="switchTab('report')">
                     <i class="fa-solid fa-file-shield"></i> Security Report
                 </button>
-                <!-- NEW ENTERPRISE ADMIN SOC CONSOLE NAV BUTTON -->
                 <button class="nav-btn admin-nav-btn" id="nav-admin-btn" onclick="switchTab('admin')">
                     <i class="fa-solid fa-user-shield text-red"></i> Admin SOC Console
                 </button>
@@ -141,14 +152,14 @@
                         <div class="input-wrapper">
                             <i class="fa-solid fa-globe input-icon"></i>
                             <input type="text" id="target-url-input" placeholder="Enter suspicious URL or domain (e.g. http://paypa1-secure-login-verify.com/account)" autocomplete="off">
-                            <button class="clear-btn" onclick="clearInput('target-url-input')"><i class="fa-solid fa-xmark"></i></button>
+                            <button class="clear-btn" onclick="clearInput('target-url-input')" aria-label="Clear input"><i class="fa-solid fa-xmark"></i></button>
                         </div>
                     </div>
 
                     <div id="input-container-text" class="input-mode hidden">
                         <div class="input-wrapper text-wrapper">
                             <textarea id="target-text-input" rows="4" placeholder="Paste email content, text message, or message body here..."></textarea>
-                            <button class="clear-btn" onclick="clearInput('target-text-input')"><i class="fa-solid fa-xmark"></i></button>
+                            <button class="clear-btn" onclick="clearInput('target-text-input')" aria-label="Clear text"><i class="fa-solid fa-xmark"></i></button>
                         </div>
                     </div>
 
@@ -514,7 +525,7 @@
             </div>
         </section>
 
-        <!-- TAB 5: NEW ENTERPRISE ADMIN SOC CONSOLE -->
+        <!-- TAB 5: ENTERPRISE ADMIN SOC CONSOLE -->
         <section id="tab-admin" class="tab-page hidden">
             <div class="page-title-box">
                 <h2><i class="fa-solid fa-user-shield text-red"></i> Enterprise Admin SOC Command Center</h2>
@@ -672,7 +683,7 @@
 
     <!-- FLOATING AI SENTINEL AGENT CHATBOT -->
     <div class="sentinel-chat-widget">
-        <button class="chat-toggle-btn" onclick="toggleChatWidget()">
+        <button class="chat-toggle-btn" onclick="toggleChatWidget()" aria-label="Toggle AI Security Assistant">
             <i class="fa-solid fa-robot"></i>
             <span class="chat-badge">AI Assistant</span>
         </button>
@@ -688,19 +699,72 @@
                 </div>
                 <div class="chat-header-actions">
                     <button class="chat-key-btn" title="Configure Gemini API Key" onclick="promptGeminiApiKey()"><i class="fa-solid fa-key"></i></button>
-                    <button class="chat-close-btn" onclick="toggleChatWidget()"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="chat-close-btn" onclick="toggleChatWidget()" aria-label="Close Chat"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
 
             <div class="chat-messages" id="chat-messages">
                 <div class="msg bot-msg">
-                    👋 Hello! I am your <strong>Sentinel Security Agent</strong> powered by Google Gemini AI. Ask me any cybersecurity question, paste suspicious links, or inquire about threat remediation steps!
+                    Greetings! I am your <strong>Sentinel Security Agent</strong> powered by Google Gemini AI. Ask me any cybersecurity question, paste suspicious links, or inquire about threat remediation steps.
                 </div>
             </div>
 
             <div class="chat-input-area">
                 <input type="text" id="chat-user-input" placeholder="Ask security question or paste URL..." onkeypress="handleChatKey(event)">
-                <button class="chat-send-btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                <button class="chat-send-btn" onclick="sendChatMessage()" aria-label="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM BRANDED 404 MODAL -->
+    <div id="modal-404" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card text-center">
+            <div class="legal-modal-header">
+                <h3 class="text-red"><i class="fa-solid fa-triangle-exclamation"></i> 404 - Threat Vector Not Found</h3>
+                <button class="modal-close-btn" onclick="closeModal('modal-404')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <p>The security endpoint or threat resource you requested does not exist or has been quarantined by SentinelGuard AI firewall policies.</p>
+                <div class="mt-20">
+                    <button class="btn btn-primary" onclick="closeModal('modal-404'); switchTab('scanner');">Return to Safe Threat Radar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPLIANCE MODALS: TERMS, PRIVACY, ACCESSIBILITY -->
+    <div id="modal-terms" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3>Terms of Service</h3>
+                <button class="modal-close-btn" onclick="closeModal('modal-terms')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <p>SentinelGuard AI is provided for cybersecurity threat analysis, educational sandbox training, and security auditing during the TLN Cybersecurity Challenge 2026. All analysis heuristics are generated locally or via authenticated AI endpoints.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-privacy" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3>Privacy Policy & Zero-Data Exfiltration</h3>
+                <button class="modal-close-btn" onclick="closeModal('modal-privacy')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <p>We enforce a Zero-Trust privacy model. Suspicious payload strings submitted to SentinelGuard AI are analyzed ephemerally in memory and are never sold, tracked, or stored on third-party tracking databases.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ftc" class="legal-modal-backdrop hidden">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3>FTC & AI Tool Disclosure</h3>
+                <button class="modal-close-btn" onclick="closeModal('modal-ftc')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="legal-modal-body">
+                <p>In compliance with TLN Cybersecurity Challenge rules and FTC AI Disclosures: SentinelGuard AI utilizes Antigravity (Gemini 3.6 Flash) for code generation assistance, and Google Gemini API for conversational security assistance. 100% of codebase logic was developed during the hackathon weekend.</p>
             </div>
         </div>
     </div>
@@ -708,11 +772,17 @@
     <footer class="app-footer">
         <div class="footer-container">
             <div class="footer-left">
-                <i class="fa-solid fa-shield-halved"></i> <strong>SentinelGuard AI</strong> &copy; 2026 | Developed for TLN Cybersecurity Challenge 2026
+                <i class="fa-solid fa-shield-halved"></i> <strong>SentinelGuard AI</strong> &copy; <span id="curr-year">2026</span> | All Rights Reserved.
+            </div>
+            <div class="footer-center">
+                <a href="tel:+18005550199" class="footer-link"><i class="fa-solid fa-phone"></i> +1 (800) 555-0199</a>
+                <a href="mailto:security@sentinelguard.ai" class="footer-link"><i class="fa-solid fa-envelope"></i> security@sentinelguard.ai</a>
             </div>
             <div class="footer-right">
-                <span class="footer-tag"><i class="fa-solid fa-code"></i> HTML5 + JS + Gemini API</span>
-                <span class="footer-tag"><i class="fa-solid fa-brain"></i> Zero-Trust Threat Intelligence</span>
+                <button class="footer-legal-btn" onclick="openModal('modal-terms')">Terms</button>
+                <button class="footer-legal-btn" onclick="openModal('modal-privacy')">Privacy</button>
+                <button class="footer-legal-btn" onclick="openModal('modal-ftc')">AI Disclosure</button>
+                <button class="footer-legal-btn" onclick="trigger404()">404 Test</button>
             </div>
         </div>
     </footer>

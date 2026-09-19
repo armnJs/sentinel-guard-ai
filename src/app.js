@@ -140,7 +140,7 @@ function deployPhishCampaign() {
         explanation: `Custom Admin Campaign ("${title}") deployed successfully to employee training queues.`
     });
 
-    alert(`🚀 Phishing Campaign "${title}" deployed network-wide! Added to Phish Hunt Sandbox.`);
+    showToast(`Phishing Campaign "${title}" deployed network-wide! Added to Phish Hunt Sandbox.`, 'success');
     document.getElementById('campaign-title').value = '';
     document.getElementById('campaign-body').value = '';
 
@@ -647,13 +647,13 @@ function updateChart(dataValues) {
 // Action Bar Handlers (Block, Report, Copy)
 function takeAction(actionType) {
     if (actionType === 'block') {
-        alert('🛡️ Threat Destination Blocked! Domain added to local firewall and host sinkhole rules.');
+        showToast('Threat Destination Blocked! Domain added to local firewall and host sinkhole rules.', 'success');
     } else if (actionType === 'report') {
-        alert('📢 Threat Intelligence Submitted to Google SafeBrowsing & PhishTank feeds.');
+        showToast('Threat Intelligence Submitted to Google SafeBrowsing & PhishTank feeds.', 'info');
     } else if (actionType === 'copy') {
         const textToCopy = `SentinelGuard Threat Report: Target=${state.lastScanData?.input} | RiskScore=${state.lastScanData?.riskScore}/100`;
         navigator.clipboard.writeText(textToCopy);
-        alert('📋 Threat payload metrics copied to clipboard!');
+        showToast('Threat payload metrics copied to clipboard!', 'success');
     }
 }
 
@@ -797,7 +797,7 @@ function promptGeminiApiKey() {
         state.geminiApiKey = key.trim();
         localStorage.setItem('sentinel_gemini_key', state.geminiApiKey);
         updateChatEngineBadge();
-        alert(state.geminiApiKey ? "✅ Gemini API Key saved! Sentinel Agent will now use live Gemini 1.5/2.0 API." : "ℹ️ Using built-in Sentinel Neural Agent engine.");
+        showToast(state.geminiApiKey ? "Gemini API Key saved! Sentinel Agent will now use live Gemini API." : "Using built-in Sentinel Neural Agent engine.", state.geminiApiKey ? "success" : "info");
     }
 }
 
@@ -895,7 +895,7 @@ async function fetchGeminiApiResponse(userQuery) {
             rawText = rawText.replace(/`(.*?)`/g, '<code>$1</code>');
             return rawText;
         } else if (data.error) {
-            return `⚠️ <strong>Gemini API Error:</strong> ${data.error.message || 'Invalid API Key'}. Switched to Sentinel Neural Engine.`;
+            return `<i class="fa-solid fa-triangle-exclamation"></i> <strong>Gemini API Error:</strong> ${data.error.message || 'Invalid API Key'}. Switched to Sentinel Neural Engine.`;
         }
     } catch (err) {
         console.error("Gemini API Call failed:", err);
@@ -910,44 +910,44 @@ function generateContextualBotReply(q) {
 
     // 1. STANDALONE GREETING CHECK
     if (/\b(hi|hello|hey|greetings|sup)\b/i.test(qLower) && qLower.length < 15) {
-        return '👋 Greetings! I am your <strong>Sentinel AI Cyber Agent</strong>. Ask me any cybersecurity question, paste a link, or inquire about threat remediation steps!';
+        return '<i class="fa-solid fa-user-shield"></i> Greetings! I am your <strong>Sentinel AI Cyber Agent</strong>. Ask me any cybersecurity question, paste a link, or inquire about threat remediation steps!';
     }
 
     // 2. TYPOSQUATTING & SPOOFED DOMAINS
     if (qLower.includes('typosquatting') || qLower.includes('typo') || qLower.includes('paypa1') || qLower.includes('homoglyph')) {
-        return '🔍 <strong>Typosquatting & Domain Spoofing Analysis:</strong><br>Attackers register visually identical domains (e.g. <code>paypa1.com</code> instead of <code>paypal.com</code>) to trick users who make typing mistakes. SentinelGuard AI detects these using Levenshtein distance calculations against official brand matrices.';
+        return '<i class="fa-solid fa-magnifying-glass"></i> <strong>Typosquatting & Domain Spoofing Analysis:</strong><br>Attackers register visually identical domains (e.g. <code>paypa1.com</code> instead of <code>paypal.com</code>) to trick users who make typing mistakes. SentinelGuard AI detects these using Levenshtein distance calculations against official brand matrices.';
     }
 
     // 3. DEEPFAKE VOICE & AUDIO SCAMS
     if (qLower.includes('deepfake') || qLower.includes('audio') || qLower.includes('voice') || qLower.includes('wire') || qLower.includes('ceo')) {
-        return '🎙️ <strong>Deepfake Voice & Wire Fraud Defense:</strong><br>AI voice clones replicate executive pitch signatures to coerce employees into fraudulent wire transfers ($45k+). SentinelGuard AI flags spectral frequency anomalies and commands dual-control phone verification.';
+        return '<i class="fa-solid fa-microphone-lines"></i> <strong>Deepfake Voice & Wire Fraud Defense:</strong><br>AI voice clones replicate executive pitch signatures to coerce employees into fraudulent wire transfers ($45k+). SentinelGuard AI flags spectral frequency anomalies and commands dual-control phone verification.';
     }
 
     // 4. INCIDENT RESPONSE & CLICKED BAD LINK
     if (qLower.includes('clicked') || qLower.includes('accident') || qLower.includes('mitigat') || qLower.includes('remediat') || qLower.includes('what should i do')) {
-        return '🚨 <strong>Emergency Incident Response Steps:</strong><br>1. <strong>Disconnect Network:</strong> Immediately disconnect Wi-Fi and ethernet.<br>2. <strong>Revoke Credentials:</strong> Reset passwords and terminate active OAuth sessions from a safe device.<br>3. <strong>Endpoint Scan:</strong> Run an offline antivirus/EDR scan for session hijackers.<br>4. <strong>Block Domain:</strong> Add the malicious IP to your local DNS sinkhole.';
+        return '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Emergency Incident Response Steps:</strong><br>1. <strong>Disconnect Network:</strong> Immediately disconnect Wi-Fi and ethernet.<br>2. <strong>Revoke Credentials:</strong> Reset passwords and terminate active OAuth sessions from a safe device.<br>3. <strong>Endpoint Scan:</strong> Run an offline antivirus/EDR scan for session hijackers.<br>4. <strong>Block Domain:</strong> Add the malicious IP to your local DNS sinkhole.';
     }
 
     // 5. SECURITY HEADERS (HSTS, CSP, CORS)
     if (qLower.includes('hsts') || qLower.includes('csp') || qLower.includes('cors') || qLower.includes('header')) {
-        return '🔒 <strong>HTTP Security Header Intelligence:</strong><br>• <code>Strict-Transport-Security (HSTS)</code>: Forces all connections over HTTPS.<br>• <code>Content-Security-Policy (CSP)</code>: Blocks untrusted script injection & XSS.<br>• <code>X-Frame-Options</code>: Prevents clickjacking inside hidden iframe overlays.';
+        return '<i class="fa-solid fa-lock"></i> <strong>HTTP Security Header Intelligence:</strong><br>• <code>Strict-Transport-Security (HSTS)</code>: Forces all connections over HTTPS.<br>• <code>Content-Security-Policy (CSP)</code>: Blocks untrusted script injection & XSS.<br>• <code>X-Frame-Options</code>: Prevents clickjacking inside hidden iframe overlays.';
     }
 
     // 6. PASSKEYS & MULTI-FACTOR AUTHENTICATION
     if (qLower.includes('passkey') || qLower.includes('2fa') || qLower.includes('mfa') || qLower.includes('fido')) {
-        return '🔑 <strong>Passkeys & FIDO2 Authentication:</strong><br>Passkeys rely on public-key cryptography bound directly to the origin domain (e.g. <code>github.com</code>). Even if you visit a fake <code>g1thub.com</code> link, the browser refuses to send your passkey credential—making them immune to phishing!';
+        return '<i class="fa-solid fa-key"></i> <strong>Passkeys & FIDO2 Authentication:</strong><br>Passkeys rely on public-key cryptography bound directly to the origin domain (e.g. <code>github.com</code>). Even if you visit a fake <code>g1thub.com</code> link, the browser refuses to send your passkey credential—making them immune to phishing!';
     }
 
     // 7. HYPERLINK / URL ANALYSIS
     if (qLower.includes('http') || qLower.includes('url') || qLower.includes('link') || qLower.includes('subdomain') || qLower.includes('tld')) {
-        return '🌐 <strong>URL Structural Inspection:</strong><br>When evaluating URLs, SentinelGuard AI inspects:<br>1. <strong>TLD Risk Index:</strong> High-risk TLDs like <code>.xyz</code>, <code>.top</code>, or <code>.cfd</code>.<br>2. <strong>Subdomain Depth:</strong> Hiding the real domain deep inside <code>m365.login.verify.com.evil-host.ru</code>.<br>3. <strong>Protocol Encryption:</strong> Insecure cleartext HTTP connections.';
+        return '<i class="fa-solid fa-globe"></i> <strong>URL Structural Inspection:</strong><br>When evaluating URLs, SentinelGuard AI inspects:<br>1. <strong>TLD Risk Index:</strong> High-risk TLDs like <code>.xyz</code>, <code>.top</code>, or <code>.cfd</code>.<br>2. <strong>Subdomain Depth:</strong> Hiding the real domain deep inside <code>m365.login.verify.com.evil-host.ru</code>.<br>3. <strong>Protocol Encryption:</strong> Insecure cleartext HTTP connections.';
     }
 
     // 8. GENERAL CYBERSECURITY QUERY FALLBACK
     const keywordsFound = q.match(/\b[A-Za-z0-9]{4,}\b/g) || ['security'];
     const focusTopic = keywordsFound.slice(0, 3).join(', ');
 
-    return `🤖 <strong>Sentinel Cyber Intelligence:</strong><br>Regarding <em>"${escapeHtml(q)}"</em> (Focus: <code>${escapeHtml(focusTopic)}</code>):<br>SentinelGuard AI evaluates this against our Zero-Trust threat engine. To get a complete breakdown, paste your target URL, text message, or audio transcript into the <strong>Threat Scanner</strong> tab above!`;
+    return `<i class="fa-solid fa-robot"></i> <strong>Sentinel Cyber Intelligence:</strong><br>Regarding <em>"${escapeHtml(q)}"</em> (Focus: <code>${escapeHtml(focusTopic)}</code>):<br>SentinelGuard AI evaluates this against our Zero-Trust threat engine. To get a complete breakdown, paste your target URL, text message, or audio transcript into the <strong>Threat Scanner</strong> tab above!`;
 }
 
 function escapeHtml(text) {
@@ -976,3 +976,51 @@ function exportReport(format) {
         window.print();
     }
 }
+
+// --- UI HELPER & SYSTEM FUNCTIONS ---
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    let icon = 'fa-circle-info';
+    if (type === 'success') icon = 'fa-circle-check';
+    if (type === 'warning') icon = 'fa-triangle-exclamation';
+    if (type === 'error') icon = 'fa-circle-exclamation';
+    
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHtml(msg)}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+function toggleMobileMenu() {
+    const nav = document.querySelector('.main-nav');
+    if (nav) nav.classList.toggle('mobile-active');
+}
+
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.add('hidden');
+}
+
+function trigger404() {
+    openModal('modal-404');
+}
+
+// Ensure dynamic copyright year on load
+document.addEventListener('DOMContentLoaded', () => {
+    const yearEl = document.getElementById('curr-year');
+    if (yearEl) {
+        yearEl.innerText = new Date().getFullYear();
+    }
+});
+
