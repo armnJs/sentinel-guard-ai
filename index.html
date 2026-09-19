@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SentinelGuard AI - Next-Generation AI Cyber Threat Radar & Phishing Protection Platform for real-time scam detection, URL threat scoring, and privacy security auditing.">
+    <meta name="keywords" content="cybersecurity, AI threat detection, phishing scanner, security audit, scam protection, zero trust">
+    <title>SentinelGuard AI | Real-Time Cyber Threat Radar & Phishing Defense</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for Threat Radar & Visuals -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div class="cyber-background">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span class="pulse-dot"></span>
+                </div>
+                <div class="brand-text">
+                    <h1>SentinelGuard <span class="badge-ai">AI</span></h1>
+                    <p class="tagline">Next-Gen Cyber Threat Radar & Scam Defense</p>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <button class="nav-btn active" id="nav-scanner-btn" onclick="switchTab('scanner')">
+                    <i class="fa-solid fa-radar"></i> Threat Scanner
+                </button>
+                <button class="nav-btn" id="nav-header-btn" onclick="switchTab('header-audit')">
+                    <i class="fa-solid fa-server"></i> Domain Audit
+                </button>
+                <button class="nav-btn" id="nav-sandbox-btn" onclick="switchTab('sandbox')">
+                    <i class="fa-solid fa-gamepad"></i> Phish Hunt Sandbox
+                </button>
+                <button class="nav-btn" id="nav-report-btn" onclick="switchTab('report')">
+                    <i class="fa-solid fa-file-shield"></i> Security Report
+                </button>
+            </nav>
+
+            <div class="header-status">
+                <div class="status-indicator online">
+                    <span class="indicator-dot"></span>
+                    <span class="status-text">SYSTEM ACTIVE</span>
+                </div>
+                <div class="hackathon-tag">
+                    <i class="fa-solid fa-trophy"></i> TLN 2026
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-content">
+        <!-- TAB 1: THREAT SCANNER -->
+        <section id="tab-scanner" class="tab-page active">
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <span class="pill-tag"><i class="fa-solid fa-bolt"></i> Real-Time Heuristic Engine</span>
+                    <h2>AI-Powered Multi-Vector Threat Analysis</h2>
+                    <p>Detect zero-day phishing links, suspicious payload text, typosquatting domains, and fraudulent QR codes instantly before damage occurs.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="stat-scanned">1,482</span>
+                        <span class="stat-label">Scans Completed</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value text-accent-red" id="stat-blocked">349</span>
+                        <span class="stat-label">Threats Mitigated</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value text-accent-green">99.8%</span>
+                        <span class="stat-label">Accuracy Score</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCANNER INPUT CARD -->
+            <div class="card scanner-box">
+                <div class="scanner-header">
+                    <div class="scanner-tabs">
+                        <button class="scan-type-btn active" id="type-url" onclick="setScanType('url')">
+                            <i class="fa-solid fa-link"></i> URL / Domain
+                        </button>
+                        <button class="scan-type-btn" id="type-text" onclick="setScanType('text')">
+                            <i class="fa-solid fa-envelope-open-text"></i> Email / SMS Text
+                        </button>
+                        <button class="scan-type-btn" id="type-qr" onclick="setScanType('qr')">
+                            <i class="fa-solid fa-qrcode"></i> QR Code Data
+                        </button>
+                    </div>
+                    <div class="quick-samples">
+                        <span class="samples-title">Try Samples:</span>
+                        <button class="sample-chip chip-phish" onclick="loadSample('phish-url')">Phishing URL</button>
+                        <button class="sample-chip chip-email" onclick="loadSample('phish-email')">Urgent Scam Email</button>
+                        <button class="sample-chip chip-safe" onclick="loadSample('safe-url')">Safe Domain</button>
+                    </div>
+                </div>
+
+                <div class="scanner-body">
+                    <div id="input-container-url" class="input-mode">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-globe input-icon"></i>
+                            <input type="text" id="target-url-input" placeholder="Enter suspicious URL or domain (e.g. http://paypa1-secure-login-verify.com/account)" autocomplete="off">
+                            <button class="clear-btn" onclick="clearInput('target-url-input')"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="input-container-text" class="input-mode hidden">
+                        <div class="input-wrapper text-wrapper">
+                            <textarea id="target-text-input" rows="4" placeholder="Paste email content, text message, or message body here..."></textarea>
+                            <button class="clear-btn" onclick="clearInput('target-text-input')"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="input-container-qr" class="input-mode hidden">
+                        <div class="qr-dropzone" id="qr-dropzone">
+                            <i class="fa-solid fa-qrcode qr-icon"></i>
+                            <p>Paste or enter raw QR code decoded URL string</p>
+                            <input type="text" id="target-qr-input" placeholder="e.g. http://quick-verify-bank.top/login?id=8831" class="qr-text-input">
+                        </div>
+                    </div>
+
+                    <div class="scanner-actions">
+                        <button id="scan-submit-btn" class="btn btn-primary" onclick="runThreatScan()">
+                            <i class="fa-solid fa-shield-virus"></i> Scan Threat Vectors
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetScanner()">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SCAN ANIMATION / LOADING -->
+                <div id="scan-loading" class="scan-loading-overlay hidden">
+                    <div class="radar-spinner">
+                        <div class="radar-line"></div>
+                        <i class="fa-solid fa-shield-halved spinner-icon"></i>
+                    </div>
+                    <div class="loading-status">
+                        <h4 id="loading-stage">Initializing Heuristic Engines...</h4>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="scan-progress-bar"></div>
+                        </div>
+                        <p id="loading-detail">Checking domain entropy & typosquatting tables...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCAN RESULTS SECTION -->
+            <div id="scan-results" class="results-container hidden">
+                <div class="results-header-card" id="risk-banner">
+                    <div class="risk-gauge-box">
+                        <div class="gauge-ring" id="gauge-ring">
+                            <div class="gauge-inner">
+                                <span class="score-number" id="risk-score-value">88</span>
+                                <span class="score-max">/ 100</span>
+                            </div>
+                        </div>
+                        <div class="risk-verdict-box">
+                            <span class="verdict-badge" id="risk-verdict-badge">CRITICAL THREAT</span>
+                            <h3 id="risk-verdict-title">High Probability Phishing Scam</h3>
+                            <p id="risk-verdict-desc">Multiple suspicious indicators detected including domain typosquatting, brand spoofing, and urgent pressure tactics.</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions-bar">
+                        <button class="action-btn danger-btn" onclick="takeAction('block')">
+                            <i class="fa-solid fa-ban"></i> Block Destination
+                        </button>
+                        <button class="action-btn" onclick="takeAction('report')">
+                            <i class="fa-solid fa-flag"></i> Report Phishing Node
+                        </button>
+                        <button class="action-btn" onclick="takeAction('copy')">
+                            <i class="fa-solid fa-share-nodes"></i> Copy Threat Intelligence
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DETAILED BREAKDOWN GRID -->
+                <div class="grid-2col">
+                    <!-- RADAR & VECTOR ANALYSIS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-chart-radar text-cyan"></i> Attack Vector Radar</h3>
+                            <span class="badge">Multi-Dimensional Analysis</span>
+                        </div>
+                        <div class="card-body chart-wrapper">
+                            <canvas id="threatRadarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- RISK INDICATORS LIST -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-list-check text-yellow"></i> Detected Risk Indicators</h3>
+                            <span class="badge" id="findings-count">4 Key Findings</span>
+                        </div>
+                        <div class="card-body">
+                            <ul class="indicators-list" id="indicators-list">
+                                <!-- Dynamic indicators populated by app.js -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HEURISTIC DEEP DIVE -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-microchip text-purple"></i> Heuristic & Technical Attributes</h3>
+                        <span class="badge">Deep Analysis</span>
+                    </div>
+                    <div class="card-body grid-3col" id="technical-attributes-grid">
+                        <!-- Technical details populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DOMAIN & HEADER AUDIT -->
+        <section id="tab-header-audit" class="tab-page hidden">
+            <div class="page-title-box">
+                <h2><i class="fa-solid fa-server text-cyan"></i> Domain Security Header Inspector</h2>
+                <p>Evaluate HTTP security headers, SSL/TLS certificate integrity, CORS policies, and server privacy exposure for any target domain.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="audit-input-bar">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-network-wired input-icon"></i>
+                            <input type="text" id="domain-audit-input" placeholder="Enter target domain or URL (e.g. github.com or banking-portal.org)" value="devpost.com">
+                        </div>
+                        <button class="btn btn-primary" onclick="runDomainAudit()">
+                            <i class="fa-solid fa-magnifying-glass"></i> Audit Security Headers
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="audit-results" class="audit-results-area">
+                <div class="grid-3col">
+                    <div class="card metric-card">
+                        <div class="metric-icon green"><i class="fa-solid fa-shield-cat"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="audit-grade">A+</span>
+                            <span class="metric-title">Overall Security Grade</span>
+                        </div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon cyan"><i class="fa-solid fa-lock"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="audit-headers-pass">6 / 7</span>
+                            <span class="metric-title">Security Headers Implemented</span>
+                        </div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon yellow"><i class="fa-solid fa-bug"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-value" id="audit-vulnerabilities">0 High Risk</span>
+                            <span class="metric-title">Header Vulnerabilities</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-20">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-shield-virus"></i> Security Header Checklist & Recommendations</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="cyber-table">
+                                <thead>
+                                    <tr>
+                                        <th>Header Name</th>
+                                        <th>Status</th>
+                                        <th>Observed Value / Analysis</th>
+                                        <th>Security Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="headers-table-body">
+                                    <!-- Dynamic content populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PHISH HUNT SANDBOX -->
+        <section id="tab-sandbox" class="tab-page hidden">
+            <div class="page-title-box">
+                <h2><i class="fa-solid fa-gamepad text-green"></i> Phish Hunt - Security Training Simulator</h2>
+                <p>Test your security intuition! Analyze modern AI-crafted phishing scenarios vs legitimate corporate communications and earn security badges.</p>
+            </div>
+
+            <div class="card sandbox-game-card">
+                <div class="sandbox-header">
+                    <div class="player-score-badge">
+                        <i class="fa-solid fa-star text-yellow"></i>
+                        <span>Score: <strong id="phish-score">0</strong> pts</span>
+                    </div>
+                    <div class="level-indicator">
+                        <span>Scenario <strong id="scenario-number">1</strong> of 5</span>
+                    </div>
+                    <div class="streak-badge">
+                        <i class="fa-solid fa-fire text-red"></i> Streak: <span id="phish-streak">0</span>
+                    </div>
+                </div>
+
+                <div class="scenario-display-box" id="scenario-box">
+                    <div class="email-mockup">
+                        <div class="email-header">
+                            <div class="email-field"><strong>From:</strong> <span id="scen-from">IT Helpdesk &lt;security-alert@company-verify-portal.net&gt;</span></div>
+                            <div class="email-field"><strong>To:</strong> <span id="scen-to">you@company.com</span></div>
+                            <div class="email-field"><strong>Subject:</strong> <span id="scen-subject">[URGENT] Action Required: Password Expires in 2 Hours</span></div>
+                        </div>
+                        <div class="email-body" id="scen-body">
+                            Dear Employee,<br><br>
+                            Your corporate Microsoft 365 password is scheduled to expire today. To retain access to your files and email without interruption, please verify your credentials immediately at our secure employee portal:<br><br>
+                            <a href="#" class="mock-link" onclick="return false;">https://m365-update-identity-portal.com/login</a><br><br>
+                            Failure to update will result in account suspension within 2 hours.<br><br>
+                            Best regards,<br>
+                            Global IT Security Team
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-choices">
+                    <button class="choice-btn phish-btn" onclick="submitAnswer('phishing')">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Mark as PHISHING SCAM
+                    </button>
+                    <button class="choice-btn safe-btn" onclick="submitAnswer('safe')">
+                        <i class="fa-solid fa-circle-check"></i> Mark as LEGITIMATE
+                    </button>
+                </div>
+
+                <div id="game-feedback" class="feedback-card hidden">
+                    <div class="feedback-header" id="feedback-title">
+                        <i class="fa-solid fa-circle-check"></i> Correct Assessment!
+                    </div>
+                    <div class="feedback-body" id="feedback-explanation">
+                        Spot on! Notice how the email uses domain spoofing (`company-verify-portal.net`) combined with false urgency ("Expires in 2 Hours") to trick you.
+                    </div>
+                    <button class="btn btn-primary mt-15" onclick="nextScenario()">
+                        Next Scenario <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: COMPREHENSIVE SECURITY REPORT -->
+        <section id="tab-report" class="tab-page hidden">
+            <div class="page-title-box">
+                <h2><i class="fa-solid fa-file-shield text-purple"></i> Instant Threat Intelligence Report</h2>
+                <p>Generate, export, or print formatted security audit documents for your records or compliance filing.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header border-bottom">
+                    <div class="report-meta-header">
+                        <div>
+                            <h3>SentinelGuard AI Threat Assessment Summary</h3>
+                            <p class="text-dim">Report ID: <code id="report-id-val">SG-2026-9941A</code> | Generated: <span id="report-timestamp">2026-09-20 02:30 UTC</span></p>
+                        </div>
+                        <div class="report-export-btns">
+                            <button class="btn btn-secondary" onclick="exportReport('json')"><i class="fa-solid fa-code"></i> JSON Export</button>
+                            <button class="btn btn-primary" onclick="exportReport('print')"><i class="fa-solid fa-print"></i> Print / Save PDF</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body printable-area" id="printable-report">
+                    <div class="report-section">
+                        <h4 class="report-sec-title"><i class="fa-solid fa-shield"></i> Target Assessment Overview</h4>
+                        <div class="report-grid">
+                            <div class="report-item">
+                                <span class="lbl">Analyzed Target:</span>
+                                <span class="val" id="rep-target">http://paypa1-secure-login-verify.com/account</span>
+                            </div>
+                            <div class="report-item">
+                                <span class="lbl">Primary Classification:</span>
+                                <span class="val text-accent-red" id="rep-verdict">Phishing / Brand Impersonation</span>
+                            </div>
+                            <div class="report-item">
+                                <span class="lbl">Calculated Risk Index:</span>
+                                <span class="val text-accent-red" id="rep-risk-score">88 / 100 (Critical Risk)</span>
+                            </div>
+                            <div class="report-item">
+                                <span class="lbl">Scan Modality:</span>
+                                <span class="val" id="rep-mode">URL & Heuristic Engine</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-section mt-20">
+                        <h4 class="report-sec-title"><i class="fa-solid fa-bug"></i> Identified Threat Factors</h4>
+                        <div class="threat-tags-box" id="rep-threat-tags">
+                            <span class="threat-tag danger"><i class="fa-solid fa-triangle-exclamation"></i> Typosquatting (paypa1 vs paypal)</span>
+                            <span class="threat-tag danger"><i class="fa-solid fa-building-flag"></i> Financial Brand Impersonation</span>
+                            <span class="threat-tag warning"><i class="fa-solid fa-user-lock"></i> Unencrypted Credentials Trap</span>
+                            <span class="threat-tag warning"><i class="fa-solid fa-clock"></i> Psychological Pressure Tactics</span>
+                        </div>
+                    </div>
+
+                    <div class="report-section mt-20">
+                        <h4 class="report-sec-title"><i class="fa-solid fa-list-check"></i> Recommended Mitigation Steps</h4>
+                        <ol class="recommendations-list" id="rep-recs-list">
+                            <li><strong>Block Domain:</strong> Add `paypa1-secure-login-verify.com` to corporate firewall and DNS sinkhole list.</li>
+                            <li><strong>Credential Reset:</strong> If any employee visited this link, mandate an immediate password reset and invalidate current session tokens.</li>
+                            <li><strong>Report Node:</strong> Submit domain to Google Safe Browsing and PhishTank database.</li>
+                            <li><strong>Enable 2FA/MFA:</strong> Ensure FIDO2 / Passkey multi-factor authentication is enforced across all organizational endpoints.</li>
+                        </ol>
+                    </div>
+
+                    <div class="report-footer">
+                        <p>Generated autonomously by <strong>SentinelGuard AI</strong> | Built for TLN Cybersecurity Challenge 2026</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <i class="fa-solid fa-shield-halved"></i> <strong>SentinelGuard AI</strong> &copy; 2026 | Developed for TLN Cybersecurity Challenge 2026
+            </div>
+            <div class="footer-right">
+                <span class="footer-tag"><i class="fa-solid fa-code"></i> HTML5 + JS + CSS Grid</span>
+                <span class="footer-tag"><i class="fa-solid fa-brain"></i> Zero-Trust Threat Intelligence</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Script -->
+    <script src="src/app.js"></script>
+</body>
+</html>
