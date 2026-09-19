@@ -78,7 +78,7 @@ function setupEventListeners() {
     });
 }
 
-// --- Navigation Tab Switcher ---
+// --- Navigation Tab Switcher (FIXED: Removes .hidden class when activating) ---
 function switchTab(tabId) {
     state.currentTab = tabId;
 
@@ -86,9 +86,17 @@ function switchTab(tabId) {
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`nav-${tabId}-btn`)?.classList.add('active');
 
-    // Update Tab Content Pages
-    document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
-    document.getElementById(`tab-${tabId}`)?.classList.add('active');
+    // Update Tab Content Pages cleanly
+    document.querySelectorAll('.tab-page').forEach(page => {
+        page.classList.remove('active');
+        page.classList.add('hidden');
+    });
+
+    const activePage = document.getElementById(`tab-${tabId}`);
+    if (activePage) {
+        activePage.classList.remove('hidden');
+        activePage.classList.add('active');
+    }
 
     // Tab specific trigger actions
     if (tabId === 'header-audit' && !state.headerAudited) {
