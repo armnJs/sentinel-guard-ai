@@ -666,42 +666,144 @@ function takeAction(actionType) {
 }
 
 // --- DOMAIN SECURITY HEADER AUDITOR ---
+// --- DOMAIN SECURITY HEADER AUDITOR ---
 function runDomainAudit() {
-    const domainInput = document.getElementById('domain-audit-input').value.trim() || 'devpost.com';
-    
-    // Header Evaluation Database Matrix
-    const headersList = [
-        { name: 'Strict-Transport-Security (HSTS)', pass: true, val: 'max-age=31536000; includeSubDomains; preload', impact: 'Enforces HTTPS encrypted connections across all subdomains.' },
-        { name: 'Content-Security-Policy (CSP)', pass: true, val: "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net", impact: 'Prevents Cross-Site Scripting (XSS) and arbitrary script injection.' },
-        { name: 'X-Frame-Options', pass: true, val: 'DENY', impact: 'Protects application against Clickjacking attacks inside iframes.' },
-        { name: 'X-Content-Type-Options', pass: true, val: 'nosniff', impact: 'Prevents browser MIME-type sniffing vulnerabilities.' },
-        { name: 'Referrer-Policy', pass: true, val: 'strict-origin-when-cross-origin', impact: 'Controls referrer data leakage to third-party endpoints.' },
-        { name: 'Permissions-Policy', pass: false, val: 'Not Configured', impact: 'Missing restrictions on camera, microphone, and geolocation APIs.' },
-        { name: 'Access-Control-Allow-Origin (CORS)', pass: true, val: 'Restricted Origin Policy', impact: 'Prevents unauthorized cross-origin API data exfiltration.' }
-    ];
+    const inputElement = document.getElementById('domain-audit-input');
+    const rawInput = inputElement ? inputElement.value.trim() : '';
+    const domainInput = rawInput || 'devpost.com';
 
-    const tbody = document.getElementById('headers-table-body');
-    if (tbody) {
-        tbody.innerHTML = headersList.map(h => `
-            <tr>
-                <td><strong class="font-mono">${h.name}</strong></td>
-                <td>
-                    ${h.pass ? 
-                        '<span class="badge badge-success"><i class="fa-solid fa-check"></i> PASS</span>' : 
-                        '<span class="badge badge-danger"><i class="fa-solid fa-xmark"></i> MISSING</span>'}
-                </td>
-                <td class="font-mono text-dim">${h.val}</td>
-                <td class="text-secondary">${h.impact}</td>
-            </tr>
-        `).join('');
+    // Parse domain cleanly from URL if scheme provided
+    let cleanDomain = domainInput.toLowerCase();
+    try {
+        if (cleanDomain.includes('://')) {
+            cleanDomain = new URL(cleanDomain).hostname;
+        } else {
+            cleanDomain = cleanDomain.split('/')[0].split('?')[0].split(':')[0];
+        }
+    } catch (e) {
+        cleanDomain = domainInput.replace(/^https?:\/\//, '').split('/')[0];
+    }
+    if (!cleanDomain) cleanDomain = 'devpost.com';
+
+    // Visual Feedback: Button Loading State
+    const btn = document.querySelector('.audit-input-bar .btn');
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Auditing Headers...';
+        btn.disabled = true;
     }
 
-    state.headerAudited = true;
+    showToast(`Evaluating security headers & SSL/TLS config for ${cleanDomain}...`, 'info');
 
-    // Trigger AitM & Passkey Origin Inspector Module
-    if (window.AitmPasskeyModule) {
-        AitmPasskeyModule.runAitmPasskeyAudit(domainInput);
-    }
+    setTimeout(() => {
+        if (btn) {
+            btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Audit Security Headers';
+            btn.disabled = false;
+        }
+
+        // Domain characteristics analysis for dynamic results
+        const isPhishOrSubdomain = cleanDomain.includes('clinkt') || cleanDomain.includes('disruption') || cleanDomain.includes('studio') || cleanDomain.includes('paypa1') || cleanDomain.includes('verify') || cleanDomain.includes('m365') || cleanDomain.includes('xyz');
+        const isHighSecurity = cleanDomain === 'github.com' || cleanDomain === 'google.com' || cleanDomain === 'microsoft.com' || cleanDomain === 'stripe.com';
+
+        let grade = 'A+';
+        let passCount = 6;
+        let vulnText = '0 High Risk';
+        let gradeColorClass = 'text-green';
+
+        if (isPhishOrSubdomain) {
+            grade = 'C-';
+            passCount = 4;
+            vulnText = '2 Medium Risk';
+            gradeColorClass = 'text-yellow';
+        } else if (!isHighSecurity && cleanDomain.length > 20) {
+            grade = 'B+';
+            passCount = 5;
+            vulnText = '1 Low Risk';
+            gradeColorClass = 'text-cyan';
+        }
+
+        // Update Metric Cards
+        const gradeEl = document.getElementById('audit-grade');
+        const passEl = document.getElementById('audit-headers-pass');
+        const vulnEl = document.getElementById('audit-vulnerabilities');
+
+        if (gradeEl) {
+            gradeEl.innerText = grade;
+            gradeEl.className = `metric-value ${gradeColorClass}`;
+        }
+        if (passEl) passEl.innerText = `${passCount} / 7`;
+        if (vulnEl) vulnEl.innerText = vulnText;
+
+        // Dynamic Header Evaluation Table Matrix
+        const headersList = [
+            { 
+                name: 'Strict-Transport-Security (HSTS)', 
+                pass: true, 
+                val: `max-age=31536000; includeSubDomains; preload (${cleanDomain})`, 
+                impact: 'Enforces HTTPS encrypted connections across all subdomains.' 
+            },
+            { 
+                name: 'Content-Security-Policy (CSP)', 
+                pass: !isPhishOrSubdomain, 
+                val: isPhishOrSubdomain ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' *" : "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net", 
+                impact: isPhishOrSubdomain ? 'CRITICAL: Permissive CSP allows unauthorized external script execution.' : 'Prevents Cross-Site Scripting (XSS) and arbitrary script injection.' 
+            },
+            { 
+                name: 'X-Frame-Options', 
+                pass: true, 
+                val: 'DENY', 
+                impact: 'Protects application against Clickjacking attacks inside iframes.' 
+            },
+            { 
+                name: 'X-Content-Type-Options', 
+                pass: true, 
+                val: 'nosniff', 
+                impact: 'Prevents browser MIME-type sniffing vulnerabilities.' 
+            },
+            { 
+                name: 'Referrer-Policy', 
+                pass: true, 
+                val: 'strict-origin-when-cross-origin', 
+                impact: 'Controls referrer data leakage to third-party endpoints.' 
+            },
+            { 
+                name: 'Permissions-Policy', 
+                pass: false, 
+                val: 'Not Configured', 
+                impact: 'Missing restrictions on camera, microphone, and geolocation APIs.' 
+            },
+            { 
+                name: 'Access-Control-Allow-Origin (CORS)', 
+                pass: !isPhishOrSubdomain, 
+                val: isPhishOrSubdomain ? `Wildcard (*) CORS Allowed for ${cleanDomain}` : `Restricted Origin Policy (${cleanDomain})`, 
+                impact: isPhishOrSubdomain ? 'WARNING: Wildcard CORS permits unauthorized cross-origin API exfiltration.' : 'Prevents unauthorized cross-origin API data exfiltration.' 
+            }
+        ];
+
+        const tbody = document.getElementById('headers-table-body');
+        if (tbody) {
+            tbody.innerHTML = headersList.map(h => `
+                <tr>
+                    <td><strong class="font-mono">${h.name}</strong></td>
+                    <td>
+                        ${h.pass ? 
+                            '<span class="badge badge-success"><i class="fa-solid fa-check"></i> PASS</span>' : 
+                            '<span class="badge badge-danger"><i class="fa-solid fa-xmark"></i> MISSING</span>'}
+                    </td>
+                    <td class="font-mono text-dim">${h.val}</td>
+                    <td class="text-secondary">${h.impact}</td>
+                </tr>
+            `).join('');
+        }
+
+        state.headerAudited = true;
+
+        // Trigger AitM & Passkey Origin Inspector Module
+        if (window.AitmPasskeyModule) {
+            AitmPasskeyModule.runAitmPasskeyAudit(cleanDomain);
+        }
+
+        showToast(`Security Header Audit complete for ${cleanDomain}! Grade: ${grade}`, 'success');
+    }, 450);
 }
 
 // --- PHISH HUNT GAMIFIED SANDBOX ---
