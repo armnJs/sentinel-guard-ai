@@ -1,40 +1,41 @@
 /* ==========================================================================
-   SentinelGuard AI - Professional Enterprise Slate/Zinc Design System
-   Design System: Calm Monochrome Palette, Flat Solid Components, Crisp 1px Borders,
-                  Restrained Status Indicators, Inter & JetBrains Mono Typography
+   SentinelGuard AI - Distinct Enterprise Slate & Midnight Palette
+   Design System: Midnight Navy Canvas (#090d16), Slate-900 Surfaces (#0f172a),
+                  Rich Blue Accent (#3b82f6), Crisp 1px Slate Borders (#334155),
+                  Inter & JetBrains Mono Typography
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    /* Calm Enterprise Slate/Zinc Palette (Dark Mode Default) */
-    --background-hsl: 240 10% 3.9%;         /* #09090b - zinc-950 */
-    --foreground-hsl: 0 0% 98%;            /* #fafafa - zinc-50 */
+    /* Rich Midnight Navy & Slate Theme (Dark Mode Default) */
+    --background-hsl: 222 47% 7%;           /* #090d16 - rich midnight navy canvas */
+    --foreground-hsl: 210 40% 98%;          /* #f8fafc - soft crisp text */
     
-    --card-hsl: 240 10% 6.5%;              /* #121215 - zinc-900 surface */
-    --card-foreground-hsl: 0 0% 98%;
+    --card-hsl: 222 47% 11%;               /* #0f172a - slate-900 card surface */
+    --card-foreground-hsl: 210 40% 98%;
     
-    --popover-hsl: 240 10% 3.9%;
-    --popover-foreground-hsl: 0 0% 98%;
+    --popover-hsl: 222 47% 11%;
+    --popover-foreground-hsl: 210 40% 98%;
     
-    --primary-hsl: 0 0% 98%;               /* #fafafa - solid white primary button */
-    --primary-foreground-hsl: 240 5.9% 10%;/* #18181b */
+    --primary-hsl: 217.2 91.2% 59.8%;      /* #3b82f6 - vibrant indigo-blue primary */
+    --primary-foreground-hsl: 0 0% 100%;   /* #ffffff */
     
-    --secondary-hsl: 240 3.7% 15.9%;       /* #27272a - zinc-800 surface */
-    --secondary-foreground-hsl: 0 0% 98%;
+    --secondary-hsl: 217.2 32.6% 17.5%;    /* #1e293b - slate-800 surface */
+    --secondary-foreground-hsl: 210 40% 98%;
     
-    --muted-hsl: 240 3.7% 15.9%;           /* #27272a */
-    --muted-foreground-hsl: 240 5% 64.9%;  /* #a1a1aa - zinc-400 */
+    --muted-hsl: 217.2 32.6% 17.5%;        /* #1e293b */
+    --muted-foreground-hsl: 215 20.2% 65.1%;/* #94a3b8 - slate-400 */
     
-    --accent-hsl: 240 3.7% 15.9%;
-    --accent-foreground-hsl: 0 0% 98%;
+    --accent-hsl: 217.2 32.6% 17.5%;
+    --accent-foreground-hsl: 210 40% 98%;
     
-    --destructive-hsl: 0 72% 51%;          /* #ef4444 - calm red */
-    --destructive-foreground-hsl: 0 0% 98%;
+    --destructive-hsl: 346.8 77.2% 49.8%;   /* #e11d48 - crisp rose red */
+    --destructive-foreground-hsl: 210 40% 98%;
     
-    --border-hsl: 240 3.7% 15.9%;          /* #27272a - 1px crisp border */
-    --input-hsl: 240 3.7% 15.9%;
-    --ring-hsl: 240 4.9% 83.9%;            /* #d4d4d8 - focus ring */
+    --border-hsl: 217.2 32.6% 23.5%;       /* #334155 - slate-700 1px border */
+    --input-hsl: 217.2 32.6% 23.5%;
+    --ring-hsl: 224.3 76.3% 48%;           /* #2563eb */
     
     --radius: 0.5rem;                      /* 8px radius */
 
@@ -44,12 +45,13 @@
     --border-color: hsl(var(--border-hsl));
     --text-primary: hsl(var(--foreground-hsl));
     --text-secondary: hsl(var(--muted-foreground-hsl));
-    --text-dim: #71717a;
+    --text-dim: #94a3b8;
 
-    /* Professional Muted Status Accents */
+    /* Distinct Accents */
     --accent-cyan: #38bdf8;                /* sky-400 */
     --accent-blue: #60a5fa;                /* blue-400 */
-    --accent-purple: #818cf8;              /* indigo-400 */
+    --accent-indigo: #818cf8;              /* indigo-400 */
+    --accent-purple: #a855f7;              /* purple-500 */
     --accent-green: #34d399;               /* emerald-400 */
     --accent-yellow: #fbbf24;              /* amber-400 */
     --accent-red: #f87171;                 /* rose-400 */
@@ -60,38 +62,38 @@
 
     /* Transitions & Shadows */
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-shadcn: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+    --shadow-shadcn: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
     --shadow-dialog: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
 }
 
 [data-theme="light"] {
-    --background-hsl: 210 40% 98%;         /* #f8fafc - slate-50 */
+    --background-hsl: 210 40% 96.1%;       /* #f1f5f9 - slate-100 */
     --foreground-hsl: 222.2 84% 4.9%;      /* #020817 - slate-950 */
     
-    --card-hsl: 0 0% 100%;                 /* #ffffff - white card */
+    --card-hsl: 0 0% 100%;                 /* #ffffff */
     --card-foreground-hsl: 222.2 84% 4.9%;
     
     --popover-hsl: 0 0% 100%;
     --popover-foreground-hsl: 222.2 84% 4.9%;
     
-    --primary-hsl: 222.2 47.4% 11.2%;      /* #0f172a - slate-900 primary button */
+    --primary-hsl: 221.2 83.2% 53.3%;      /* #2563eb - blue-600 */
     --primary-foreground-hsl: 210 40% 98%;
     
-    --secondary-hsl: 210 40% 96.1%;        /* #f1f5f9 - slate-100 */
+    --secondary-hsl: 214.3 31.8% 91.4%;    /* #e2e8f0 - slate-200 */
     --secondary-foreground-hsl: 222.2 47.4% 11.2%;
     
-    --muted-hsl: 210 40% 96.1%;
-    --muted-foreground-hsl: 215.4 16.3% 46.9%;/* #64748b - slate-500 */
+    --muted-hsl: 214.3 31.8% 91.4%;
+    --muted-foreground-hsl: 215.4 16.3% 46.9%;/* #64748b */
     
-    --accent-hsl: 210 40% 96.1%;
+    --accent-hsl: 214.3 31.8% 91.4%;
     --accent-foreground-hsl: 222.2 47.4% 11.2%;
     
     --destructive-hsl: 0 84.2% 60.2%;
     --destructive-foreground-hsl: 210 40% 98%;
     
-    --border-hsl: 214.3 31.8% 91.4%;       /* #e2e8f0 - slate-200 border */
-    --input-hsl: 214.3 31.8% 91.4%;
-    --ring-hsl: 222.2 84% 4.9%;
+    --border-hsl: 214.3 31.8% 85%;         /* slate-300 border */
+    --input-hsl: 214.3 31.8% 85%;
+    --ring-hsl: 221.2 83.2% 53.3%;
 
     --text-primary: hsl(var(--foreground-hsl));
     --text-secondary: hsl(var(--muted-foreground-hsl));
@@ -134,7 +136,7 @@ body {
 
 .hidden { display: none !important; }
 
-/* Clean Minimalist Background Grid */
+/* Subtle Background Grid */
 .cyber-background {
     position: fixed;
     top: 0;
@@ -150,15 +152,15 @@ body {
     position: absolute;
     inset: 0;
     background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 32px 32px;
 }
 
 [data-theme="light"] .grid-overlay {
     background-image: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
 /* TOAST NOTIFICATIONS (shadcn Toast Style) */
@@ -199,7 +201,7 @@ body {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* LIVE TICKER BANNER (Minimalist Slate Banner) */
+/* LIVE TICKER BANNER */
 .cyber-threat-ticker {
     background: hsl(var(--card-hsl));
     border-bottom: 1px solid hsl(var(--border-hsl));
@@ -252,18 +254,18 @@ body {
     border-radius: var(--radius);
 }
 
-.ticker-item.danger { color: #f87171; background: rgba(248, 113, 113, 0.1); }
-.ticker-item.warning { color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
-.ticker-item.success { color: #34d399; background: rgba(52, 211, 153, 0.1); }
+.ticker-item.danger { color: #f87171; background: rgba(248, 113, 113, 0.12); }
+.ticker-item.warning { color: #fbbf24; background: rgba(251, 191, 36, 0.12); }
+.ticker-item.success { color: #34d399; background: rgba(52, 211, 153, 0.12); }
 
 @keyframes marquee {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
 
-/* APP HEADER & NAVBAR (shadcn Top Navigation) */
+/* APP HEADER & NAVBAR */
 .app-header {
-    background: rgba(9, 9, 11, 0.9);
+    background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid hsl(var(--border-hsl));
@@ -273,7 +275,7 @@ body {
 }
 
 [data-theme="light"] .app-header {
-    background: rgba(248, 250, 252, 0.9);
+    background: rgba(241, 245, 249, 0.95);
 }
 
 .header-container {
@@ -335,7 +337,7 @@ body {
 
 .tagline { font-size: 0.75rem; color: hsl(var(--muted-foreground-hsl)); }
 
-/* SEGMENTED NAV CONTROL (shadcn Tabs Style) */
+/* SEGMENTED NAV CONTROL */
 .main-nav {
     display: flex;
     align-items: center;
@@ -365,8 +367,8 @@ body {
 .nav-btn:hover { color: hsl(var(--foreground-hsl)); }
 
 .nav-btn.active {
-    background: hsl(var(--card-hsl));
-    color: hsl(var(--foreground-hsl));
+    background: hsl(var(--primary-hsl));
+    color: hsl(var(--primary-foreground-hsl));
     box-shadow: var(--shadow-shadcn);
     font-weight: 600;
 }
@@ -396,17 +398,17 @@ body {
 }
 
 .status-indicator.online {
-    background: rgba(52, 211, 153, 0.1);
+    background: rgba(52, 211, 153, 0.15);
     color: var(--accent-green);
-    border-color: rgba(52, 211, 153, 0.25);
+    border-color: rgba(52, 211, 153, 0.3);
 }
 
-.status-indicator.online:hover { background: rgba(52, 211, 153, 0.2); }
+.status-indicator.online:hover { background: rgba(52, 211, 153, 0.25); }
 
 .status-indicator.offline {
-    background: rgba(248, 113, 113, 0.1);
+    background: rgba(248, 113, 113, 0.15);
     color: var(--accent-red);
-    border-color: rgba(248, 113, 113, 0.25);
+    border-color: rgba(248, 113, 113, 0.3);
 }
 
 .header-util-btn {
@@ -475,9 +477,9 @@ body {
     gap: 0.4rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: hsl(var(--muted-foreground-hsl));
-    background: hsl(var(--secondary-hsl));
-    border: 1px solid hsl(var(--border-hsl));
+    color: var(--accent-indigo);
+    background: rgba(129, 140, 248, 0.12);
+    border: 1px solid rgba(129, 140, 248, 0.25);
     padding: 0.25rem 0.65rem;
     border-radius: 9999px;
     margin-bottom: 0.75rem;
@@ -527,7 +529,7 @@ body {
     margin-top: 0.15rem;
 }
 
-/* SHADCN CARDS */
+/* CARDS WITH DISTINCT SLATE SURFACES */
 .card, .glass-card, .metric-card, .scen-card, .scanner-box {
     background: hsl(var(--card-hsl));
     border: 1px solid hsl(var(--border-hsl));
@@ -599,8 +601,8 @@ body {
 .scan-type-btn:hover { color: hsl(var(--foreground-hsl)); }
 
 .scan-type-btn.active {
-    background: hsl(var(--card-hsl));
-    color: hsl(var(--foreground-hsl));
+    background: hsl(var(--primary-hsl));
+    color: hsl(var(--primary-foreground-hsl));
     font-weight: 600;
     box-shadow: var(--shadow-shadcn);
 }
@@ -709,7 +711,7 @@ body {
     gap: 0.75rem;
 }
 
-/* MONOCHROME BUTTON SYSTEM */
+/* BUTTON SYSTEM */
 .btn, .btn-primary, .btn-secondary, .btn-outline, .btn-ghost, .btn-destructive {
     display: inline-flex;
     align-items: center;
@@ -783,9 +785,9 @@ body {
     font-family: var(--font-heading);
 }
 
-.badge-success { background: rgba(52, 211, 153, 0.1); color: var(--accent-green); border-color: rgba(52, 211, 153, 0.25); }
-.badge-warning { background: rgba(251, 191, 36, 0.1); color: var(--accent-yellow); border-color: rgba(251, 191, 36, 0.25); }
-.badge-danger { background: rgba(248, 113, 113, 0.1); color: var(--accent-red); border-color: rgba(248, 113, 113, 0.25); }
+.badge-success { background: rgba(52, 211, 153, 0.15); color: var(--accent-green); border-color: rgba(52, 211, 153, 0.3); }
+.badge-warning { background: rgba(251, 191, 36, 0.15); color: var(--accent-yellow); border-color: rgba(251, 191, 36, 0.3); }
+.badge-danger { background: rgba(248, 113, 113, 0.15); color: var(--accent-red); border-color: rgba(248, 113, 113, 0.3); }
 .badge-secondary { background: hsl(var(--secondary-hsl)); color: hsl(var(--secondary-foreground-hsl)); }
 
 /* TABLE MATRIX */
@@ -896,20 +898,20 @@ body {
 }
 
 .phish-btn {
-    background: rgba(248, 113, 113, 0.12);
+    background: rgba(248, 113, 113, 0.15);
     color: var(--accent-red);
-    border-color: rgba(248, 113, 113, 0.25);
+    border-color: rgba(248, 113, 113, 0.3);
 }
 
-.phish-btn:hover { background: rgba(248, 113, 113, 0.2); }
+.phish-btn:hover { background: rgba(248, 113, 113, 0.25); }
 
 .safe-btn {
-    background: rgba(52, 211, 153, 0.12);
+    background: rgba(52, 211, 153, 0.15);
     color: var(--accent-green);
-    border-color: rgba(52, 211, 153, 0.25);
+    border-color: rgba(52, 211, 153, 0.3);
 }
 
-.safe-btn:hover { background: rgba(52, 211, 153, 0.2); }
+.safe-btn:hover { background: rgba(52, 211, 153, 0.25); }
 
 .feedback-card {
     background: hsl(var(--muted-hsl));
