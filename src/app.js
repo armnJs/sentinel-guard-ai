@@ -136,6 +136,10 @@ function setupEventListeners() {
 function switchTab(tabId) {
     state.currentTab = tabId;
 
+    // Automatically close mobile navigation drawer upon selecting a tab
+    const nav = document.querySelector('.main-nav');
+    if (nav) nav.classList.remove('mobile-active');
+
     // Update Nav Buttons
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(`nav-${tabId}-btn`)?.classList.add('active');
