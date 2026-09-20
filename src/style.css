@@ -213,7 +213,7 @@ body {
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 10000 !important;
 }
 
 .header-container {
@@ -2720,7 +2720,7 @@ body {
     border-bottom: 1px solid hsl(var(--border-hsl));
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 10000 !important;
 }
 
 [data-theme="light"] .app-header {
@@ -3756,10 +3756,10 @@ input, textarea, pre, code, .printable-area, .mock-link {
     .mobile-nav-backdrop {
         position: fixed;
         inset: 0;
-        background: rgba(3, 7, 18, 0.85);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        z-index: 9998;
+        background: rgba(3, 7, 18, 0.8) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        z-index: 900 !important;
         animation: fadeIn 0.25s ease-out;
     }
 
@@ -3794,14 +3794,14 @@ input, textarea, pre, code, .printable-area, .mock-link {
         left: 0;
         right: 0;
         flex-direction: column;
-        background: #080c17 !important; /* 100% Solid Opaque Dark - NO content bleed-through */
+        background: #090d18 !important; /* Solid 100% Opaque Dark Canvas - FORWARD POSITION */
         padding: 1.25rem 1rem;
         border-radius: 0 0 16px 16px;
         border-bottom: 2px solid var(--accent-cyan) !important;
-        border-left: 1px solid rgba(56, 189, 248, 0.25) !important;
-        border-right: 1px solid rgba(56, 189, 248, 0.25) !important;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 0 10px 30px rgba(0, 243, 255, 0.2) !important;
-        z-index: 10000 !important;
+        border-left: 1px solid rgba(56, 189, 248, 0.3) !important;
+        border-right: 1px solid rgba(56, 189, 248, 0.3) !important;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 0 10px 30px rgba(0, 243, 255, 0.25) !important;
+        z-index: 10001 !important;
         gap: 0.65rem;
     }
 
