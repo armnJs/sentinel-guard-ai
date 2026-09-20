@@ -1397,13 +1397,105 @@ input:checked + .slider-round:before { transform: translateX(22px); }
 .feedback-body { font-size: 0.88rem; color: var(--text-secondary); }
 
 /* Report Section */
+/* DOMAIN AUDIT INPUT BAR & METRIC CARDS LAYOUT */
+.audit-input-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.audit-input-bar .input-wrapper {
+    flex: 1;
+}
+
+.audit-input-bar .btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.85rem 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .audit-input-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.metric-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: var(--glow-card);
+    overflow: hidden;
+    height: 100%;
+}
+
+.metric-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.metric-icon.green {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.metric-icon.cyan {
+    background: rgba(0, 243, 255, 0.15);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.metric-icon.yellow {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--accent-yellow);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    line-height: 1.1;
+    color: var(--text-primary);
+}
+
+.metric-title {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .report-meta-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .report-section { padding-bottom: 1rem; }
 .report-sec-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent-cyan); }
 .report-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 .report-item { background: rgba(7, 9, 19, 0.5); border: 1px solid var(--border-color); padding: 0.85rem 1rem; border-radius: 8px; }
 .report-item .lbl { display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.2rem; }
-.report-item .val { font-weight: 600; font-size: 0.92rem; }
+.report-item .val { font-weight: 600; font-size: 0.92rem; word-break: break-all; }
 
 .threat-tags-box { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .threat-tag { font-size: 0.82rem; padding: 0.4rem 0.8rem; border-radius: 8px; display: inline-flex; align-items: center; gap: 0.4rem; }
