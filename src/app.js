@@ -104,6 +104,27 @@ function switchTab(tabId) {
     }
 }
 
+// --- SYSTEM STATUS TOGGLE (Smooth Online / Standby Switch) ---
+function toggleSystemStatus() {
+    const btn = document.getElementById('system-status-btn');
+    if (!btn) return;
+
+    const isOnline = btn.classList.contains('online');
+    const text = btn.querySelector('.status-text');
+
+    if (isOnline) {
+        btn.classList.remove('online');
+        btn.classList.add('offline');
+        if (text) text.innerText = 'RADAR STANDBY';
+        showToast('SentinelGuard AI Threat Radar paused. System in Standby Mode.', 'warning');
+    } else {
+        btn.classList.remove('offline');
+        btn.classList.add('online');
+        if (text) text.innerText = 'SYSTEM ACTIVE';
+        showToast('SentinelGuard AI Threat Radar active & monitoring endpoints.', 'success');
+    }
+}
+
 // --- ENTERPRISE ADMIN SOC CONSOLE LOGIC ---
 function updatePolicySetting(type, val) {
     if (type === 'heuristic') {
