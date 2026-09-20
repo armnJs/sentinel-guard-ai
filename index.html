@@ -192,7 +192,7 @@
                         <div class="qr-dropzone" id="qr-dropzone">
                             <i class="fa-solid fa-qrcode qr-icon"></i>
                             <p>Paste or enter raw QR code decoded URL string</p>
-                            <input type="text" id="target-qr-input" placeholder="e.g. http://quick-verify-bank.top/login?id=8831" class="qr-text-input">
+                            <input type="text" id="target-qr-input" placeholder="e.g. http://quick-verify-bank.top/login?id=8831&session=exfil_9941" class="qr-text-input">
                         </div>
                     </div>
 
@@ -251,6 +251,9 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- QUISHING MULTI-HOP REDIRECT CONTAINER -->
+                <div id="quishing-chain-container"></div>
 
                 <!-- VISUAL DOM CLONE INSPECTOR -->
                 <div class="card visual-clone-card">
@@ -536,6 +539,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 1-CLICK SOC REMEDIATION PLAYBOOK GENERATOR CARD -->
+            <div class="card mt-20" id="soc-playbook-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-code text-cyan"></i> 1-Click SOC Remediation Playbook Generator</h3>
+                    <button class="btn btn-secondary sm-btn" onclick="SocPlaybookModule.copyCurrentPlaybook()">
+                        <i class="fa-solid fa-copy"></i> Copy Playbook Code
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="playbook-tabs mb-15">
+                        <button class="playbook-tab-btn active" data-type="suricata" onclick="SocPlaybookModule.renderPlaybook('suricata')">
+                            <i class="fa-solid fa-shield"></i> Suricata / Snort IDS
+                        </button>
+                        <button class="playbook-tab-btn" data-type="yara" onclick="SocPlaybookModule.renderPlaybook('yara')">
+                            <i class="fa-solid fa-file-code"></i> YARA Rule
+                        </button>
+                        <button class="playbook-tab-btn" data-type="powershell" onclick="SocPlaybookModule.renderPlaybook('powershell')">
+                            <i class="fa-solid fa-terminal"></i> PowerShell Remediation
+                        </button>
+                        <button class="playbook-tab-btn" data-type="soar" onclick="SocPlaybookModule.renderPlaybook('soar')">
+                            <i class="fa-solid fa-network-wired"></i> Splunk SOAR Webhook
+                        </button>
+                    </div>
+                    <pre class="playbook-code-box font-mono" id="playbook-code-box">Loading SOC Playbook Signature...</pre>
+                </div>
+            </div>
         </section>
 
         <!-- TAB 5: ENTERPRISE ADMIN SOC CONSOLE -->
@@ -691,6 +721,34 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ENTERPRISE DoH FIREWALL BLOCKLIST EXPORTER -->
+            <div class="card mt-20">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-download text-green"></i> Enterprise DNS-over-HTTPS (DoH) & Blocklist Exporter</h3>
+                    <span class="badge badge-success">5 Threat Domains Active</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary mb-15">Export live threat sinkhole rules directly into enterprise firewall and DNS privacy providers:</p>
+                    <div class="doh-exporter-grid">
+                        <button class="btn btn-secondary" onclick="DohExporterModule.exportBlocklist('pihole')">
+                            <i class="fa-solid fa-file-export text-cyan"></i> Export Pi-hole / Hosts
+                        </button>
+                        <button class="btn btn-secondary" onclick="DohExporterModule.exportBlocklist('cloudflare')">
+                            <i class="fa-solid fa-cloud text-blue"></i> Export Cloudflare Teams JSON
+                        </button>
+                        <button class="btn btn-secondary" onclick="DohExporterModule.exportBlocklist('nextdns')">
+                            <i class="fa-solid fa-shield-halved text-purple"></i> Export NextDNS List
+                        </button>
+                        <button class="btn btn-secondary" onclick="DohExporterModule.exportBlocklist('cisco')">
+                            <i class="fa-solid fa-server text-green"></i> Export Cisco Umbrella / BIND9
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AitM & PASSKEY ORIGIN INSPECTOR CONTAINER -->
+            <div id="aitm-audit-container"></div>
         </section>
 
         <!-- CYBER SECURITY KNOWLEDGE BASE & FAQ ACCORDION -->
@@ -918,6 +976,12 @@
     <button id="back-to-top" class="back-to-top hidden" onclick="scrollToTop()" aria-label="Scroll back to top">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
+
+    <!-- Cutting-Edge Cybersecurity Modules -->
+    <script src="src/modules/soc-playbook.js"></script>
+    <script src="src/modules/aitm-passkey.js"></script>
+    <script src="src/modules/quishing-exploder.js"></script>
+    <script src="src/modules/doh-exporter.js"></script>
 
     <!-- Application Script -->
     <script src="src/app.js"></script>

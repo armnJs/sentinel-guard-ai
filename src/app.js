@@ -582,8 +582,16 @@ function renderScanResults(results) {
     // Update Radar Chart
     updateChart(results.radarValues);
 
-    // Synchronize Report Data
+    // Synchronize Report Data & SOC Remediation Playbook Module
     updateReportTab(results);
+    if (window.SocPlaybookModule) {
+        SocPlaybookModule.init(results);
+    }
+
+    // Trigger Quishing Exploder Module if scanning QR Code
+    if (results.type === 'qr' && window.QuishingExploderModule) {
+        QuishingExploderModule.explodeQrRedirectChain(results.input);
+    }
 
     // Smooth scroll down to results
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -689,6 +697,11 @@ function runDomainAudit() {
     }
 
     state.headerAudited = true;
+
+    // Trigger AitM & Passkey Origin Inspector Module
+    if (window.AitmPasskeyModule) {
+        AitmPasskeyModule.runAitmPasskeyAudit(domainInput);
+    }
 }
 
 // --- PHISH HUNT GAMIFIED SANDBOX ---
@@ -1177,6 +1190,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (yearEl) {
         yearEl.innerText = new Date().getFullYear();
     }
+
+    // Initialize Cutting-Edge Modules
+    if (window.SocPlaybookModule) SocPlaybookModule.init();
+    if (window.AitmPasskeyModule) AitmPasskeyModule.runAitmPasskeyAudit('devpost.com');
 });
 
 

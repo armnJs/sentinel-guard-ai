@@ -1997,6 +1997,92 @@ body, .card, .app-header, .cyber-threat-ticker, .main-nav, .nav-btn, .scanner-bo
     transform: translateY(-3px);
 }
 
+/* CUTTING EDGE MODULE STYLES */
+
+/* SOC Playbook Generator */
+.playbook-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.playbook-tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+.playbook-tab-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); }
+.playbook-tab-btn.active {
+    background: rgba(0, 243, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+.playbook-code-box {
+    background: #04060c;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.25rem;
+    font-size: 0.85rem;
+    color: #a7f3d0;
+    overflow-x: auto;
+    max-height: 350px;
+    line-height: 1.5;
+}
+[data-theme="light"] .playbook-code-box {
+    background: #0f172a !important;
+    color: #38bdf8 !important;
+}
+
+/* AitM & Passkey Inspector */
+.aitm-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+@media (max-width: 900px) { .aitm-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .aitm-grid { grid-template-columns: 1fr; } }
+.aitm-stat-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 10px;
+}
+.aitm-stat-box span { font-size: 0.75rem; display: block; margin-bottom: 0.3rem; }
+.aitm-stat-box h4 { font-size: 1rem; font-weight: 700; }
+.aitm-sig-list { list-style: none; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; }
+
+/* Quishing Redirect Timeline */
+.redirect-timeline { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+.redirect-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 10px;
+}
+.step-num {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-cyan);
+    color: #000;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.step-content { flex: 1; }
+.step-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; font-size: 0.88rem; }
+.step-url { font-size: 0.85rem; word-break: break-all; margin-bottom: 0.2rem; }
+.step-note { font-size: 0.78rem; }
+.redirect-arrow { text-align: center; font-size: 1.2rem; }
+
+/* Enterprise DoH Exporter */
+.doh-exporter-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+@media (max-width: 900px) { .doh-exporter-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .doh-exporter-grid { grid-template-columns: 1fr; } }
+
+
 /* Dedicated Print Stylesheet */
 @media print {
     body { background: #fff !important; color: #000 !important; }
