@@ -66,7 +66,33 @@ document.addEventListener('DOMContentLoaded', () => {
     initPhishGame();
     setupEventListeners();
     updateChatEngineBadge();
+    initCookieBanner();
 });
+
+// --- COOKIE CONSENT BANNER MANAGER ---
+function initCookieBanner() {
+    const consent = localStorage.getItem('sentinel_cookie_consent');
+    const banner = document.getElementById('cookie-banner');
+    if (!consent && banner) {
+        setTimeout(() => banner.classList.remove('hidden'), 800);
+    }
+}
+
+function handleCookieConsent(choice) {
+    localStorage.setItem('sentinel_cookie_consent', choice);
+    const banner = document.getElementById('cookie-banner');
+    if (banner) {
+        banner.style.opacity = '0';
+        banner.style.transform = 'translate(-50%, 20px)';
+        banner.style.transition = 'all 0.3s ease';
+        setTimeout(() => banner.classList.add('hidden'), 300);
+    }
+    if (choice === 'accept') {
+        showToast('Cookie preferences saved: Security cookies accepted.', 'success');
+    } else {
+        showToast('Cookie preferences saved: Optional cookies rejected.', 'info');
+    }
+}
 
 function setupEventListeners() {
     // Enable Enter key submission for inputs

@@ -1613,10 +1613,29 @@ input:checked + .slider-round:before { transform: translateX(22px); }
     gap: 1rem;
 }
 
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.footer-rights-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.3px;
+}
+
+[data-theme="light"] .footer-rights-text {
+    color: #0f172a !important;
+}
+
 .footer-link {
     color: var(--text-secondary);
     text-decoration: none;
-    margin-right: 1rem;
+    margin-right: 0.75rem;
+    margin-left: 0.75rem;
     transition: var(--transition-fast);
 }
 

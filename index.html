@@ -893,11 +893,16 @@
     <footer class="app-footer">
         <div class="footer-container">
             <div class="footer-left">
-                <i class="fa-solid fa-shield-halved"></i> <strong>SentinelGuard AI</strong> &copy; <span id="curr-year">2026</span> | All Rights Reserved.
+                <i class="fa-solid fa-shield-halved text-cyan"></i> <strong>SentinelGuard AI</strong>
             </div>
-            <div class="footer-center">
-                <a href="tel:+18005550199" class="footer-link"><i class="fa-solid fa-phone"></i> +1 (800) 555-0199</a>
-                <a href="mailto:security@sentinelguard.ai" class="footer-link"><i class="fa-solid fa-envelope"></i> security@sentinelguard.ai</a>
+            <div class="footer-center text-center">
+                <p class="footer-rights-text">
+                    All Rights Reserved to <strong>armnJs</strong> &copy; 2026
+                </p>
+                <div class="footer-contact-links">
+                    <a href="tel:+18005550199" class="footer-link"><i class="fa-solid fa-phone"></i> +1 (800) 555-0199</a>
+                    <a href="mailto:security@sentinelguard.ai" class="footer-link"><i class="fa-solid fa-envelope"></i> security@sentinelguard.ai</a>
+                </div>
             </div>
             <div class="footer-right">
                 <button class="footer-legal-btn" onclick="openModal('modal-terms')">Terms</button>
@@ -966,8 +971,12 @@
                 <span>We use local session state to persist threat scans and security heuristic preferences without tracking personal data.</span>
             </div>
             <div class="cookie-actions">
-                <button class="btn btn-secondary sm-btn" onclick="acceptCookies('custom')">Preferences</button>
-                <button class="btn btn-primary sm-btn" onclick="acceptCookies('all')">Accept All</button>
+                <button class="btn btn-secondary sm-btn" onclick="handleCookieConsent('reject')">
+                    <i class="fa-solid fa-xmark"></i> Reject Cookies
+                </button>
+                <button class="btn btn-primary sm-btn" onclick="handleCookieConsent('accept')">
+                    <i class="fa-solid fa-check"></i> Accept Cookies
+                </button>
             </div>
         </div>
     </div>
