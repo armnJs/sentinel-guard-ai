@@ -1036,6 +1036,382 @@ const GAME_SCENARIOS = [
         body: 'Dear Team,<br><br>All eligible employees have been granted a 5% Q3 performance bonus. To process your direct deposit payment, please review and sign your tax declaration document before 5:00 PM today:<br><br><a href="#" class="mock-link" onclick="return false;">http://internal-payroll-update.com/bonus/sign</a><br><br>Human Resources',
         type: 'phishing',
         explanation: 'Spot on! This is a classic HR Spear Phishing campaign tempting employees with a financial bonus to steal payroll portal logins.'
+    },
+    {
+        from: 'PayPal Security <service@paypa1-security-center.com>',
+        to: 'user@domain.com',
+        subject: 'Urgent: Account Limited Due to Unusual Activity',
+        body: 'We noticed unauthorized login attempts on your PayPal account. We have temporarily limited your funds access.<br><br>Please confirm your identity within 24 hours to restore full access:<br><br><a href="#" class="mock-link" onclick="return false;">https://paypa1-security-center.com/verify-identity</a><br><br>Thank you,<br>PayPal Support',
+        type: 'phishing',
+        explanation: 'Excellently identified! Look closely at the domain: `paypa1-security-center.com` uses typosquatting (`1` instead of `l`) to impersonate PayPal.'
+    },
+    {
+        from: 'Slack <feedback@slack.com>',
+        to: 'employee@company.com',
+        subject: 'You have been invited to join Engineering Slack Workspace',
+        body: 'Alex invited you to join the <strong>DevOps Engineering</strong> workspace on Slack.<br><br>Click the link below to accept your invitation and create your account:<br><br><a href="#" class="mock-link" onclick="return false;">https://slack.com/accept-invite/devops-eng-9912</a><br><br>See you in Slack!',
+        type: 'safe',
+        explanation: 'Correct! Legitimate invitation email originating directly from official `@slack.com` infrastructure.'
+    },
+    {
+        from: 'Amazon Delivery <tracking-update@amazon-parcel-claims.info>',
+        to: 'shopper@gmail.com',
+        subject: 'Delivery Alert: Package #US-88204 Failed Delivery Attempt',
+        body: 'Your package could not be delivered due to an incorrect shipping address.<br><br>Please update your delivery address and pay the $1.95 redelivery fee to avoid item return:<br><br><a href="#" class="mock-link" onclick="return false;">http://amazon-parcel-claims.info/redeliver</a><br><br>Amazon Logistics Team',
+        type: 'phishing',
+        explanation: 'Well spotted! Amazon does not ask for small redelivery fees on `.info` domains. This is a common SMS/Email credit card harvesting scam.'
+    },
+    {
+        from: 'Zoom Meetings <no-reply@zoom.us>',
+        to: 'team-member@company.com',
+        subject: 'Updated Invitation: All-Hands Quarterly Sync @ Fri Sep 25, 2026',
+        body: 'The meeting host has updated the scheduled Zoom meeting.<br><br>Topic: Q4 All-Hands Quarterly Sync<br>Time: Sep 25, 2026 10:00 AM Eastern Time<br><br>Join Zoom Meeting:<br><a href="#" class="mock-link" onclick="return false;">https://zoom.us/j/98127394812?pwd=Nk9xM3p1</a><br><br>Zoom Support',
+        type: 'safe',
+        explanation: 'Spot on! Standard Zoom meeting update sent from official `@zoom.us` email domain with valid meeting ID parameters.'
+    },
+    {
+        from: 'CEO Executive Office <ceo-direct@executive-mail-portal.com>',
+        to: 'finance-manager@company.com',
+        subject: 'STRICT CONFIDENTIAL: Urgent Wire Transfer Required for Acquisition',
+        body: 'Hi Finance Team,<br><br>I am currently in an urgent board meeting and unable to take phone calls. We are finalizing an urgent M&A contract today. Please execute a wire transfer of $48,500 immediately to the escrow account below:<br><br>Account: 99482019482<br>Routing: 021000021<br><br>Do not discuss this with anyone until press release tomorrow.<br><br>Sent from my iPad',
+        type: 'phishing',
+        explanation: 'Crucial catch! This is Business Email Compromise (BEC) / CEO Fraud. Executives will never bypass corporate financial controls via unexpected urgent external emails.'
+    },
+    {
+        from: 'Microsoft Account Team <account-security-noreply@accountprotection.microsoft.com>',
+        to: 'user@company.com',
+        subject: 'Microsoft account password reset code',
+        body: 'We received your request to reset your Microsoft account password.<br><br>Your single-use code is: <strong>784920</strong><br><br>If you did not request this code, someone may have entered your email by mistake. You can safely ignore this email.<br><br>Thanks,<br>The Microsoft account team',
+        type: 'safe',
+        explanation: 'Correct! Official Microsoft authentication code email from the legitimate domain `@accountprotection.microsoft.com`.'
+    },
+    {
+        from: 'Netflix <billing-info@netflix-payment-update-center.net>',
+        to: 'movie-fan@gmail.com',
+        subject: 'Important: Your Netflix Membership is on Hold',
+        body: 'We were unable to process your monthly payment subscription. Your account access will be terminated in 24 hours unless payment details are updated.<br><br><a href="#" class="mock-link" onclick="return false;">http://netflix-payment-update-center.net/renew</a><br><br>Netflix Customer Service',
+        type: 'phishing',
+        explanation: 'Great job! Netflix billing emails will always direct you to `netflix.com/youraccount`, not an external `.net` third-party site.'
+    },
+    {
+        from: 'DocuSign Electronic Signature <docusign@document-sign-portal.com>',
+        to: 'user@company.com',
+        subject: 'Signature Required: Confidential Severance & Non-Disclosure Agreement',
+        body: 'DocuSign Notice:<br>HR Department has sent you an urgent document to review and sign electronically.<br><br>Document: NDA_Severance_Adjustment_2026.pdf<br><br><a href="#" class="mock-link" onclick="return false;">https://document-sign-portal.com/docusign/view?id=8841</a><br><br>This link expires in 1 hour.',
+        type: 'phishing',
+        explanation: 'Spot on! Phishers frequently clone DocuSign templates on fake lookalike domains (`document-sign-portal.com`) to capture corporate passwords.'
+    },
+    {
+        from: 'Amazon Web Services <no-reply@amazon.com>',
+        to: 'sysadmin@company.com',
+        subject: 'Your AWS Monthly Invoice Statement for August 2026',
+        body: 'Dear AWS Customer,<br><br>Your monthly AWS Invoice statement for August 2026 is now available. The total charge of $142.80 has been billed to your default payment method.<br><br>You can view your detailed usage reports in the AWS Billing Console:<br><a href="#" class="mock-link" onclick="return false;">https://console.aws.amazon.com/billing/home</a><br><br>Thank you for using AWS.',
+        type: 'safe',
+        explanation: 'Correct! Official AWS invoice notification linking directly to official `console.aws.amazon.com`.'
+    },
+    {
+        from: 'LinkedIn Security <invitations@linkedin-network-connect.xyz>',
+        to: 'professional@company.com',
+        subject: 'Executive Recruiter wants to connect on LinkedIn',
+        body: 'Sarah Jenkins (Senior Talent Recruiter at Google) sent you a message:<br><br><em>"Hi! I reviewed your profile and we have a $220k remote position that fits your experience perfectly. Click below to view compensation package..."</em><br><br><a href="#" class="mock-link" onclick="return false;">http://linkedin-network-connect.xyz/view-job</a>',
+        type: 'phishing',
+        explanation: 'Nicely spotted! Phishers use job recruitment bait linking to untrusted `.xyz` domains to harvest professional credentials.'
+    },
+    {
+        from: 'Apple Support <security@appleid-icloud-lock.com>',
+        to: 'iphone-user@icloud.com',
+        subject: 'Apple ID Alert: Your account has been disabled for security reasons',
+        body: 'Dear Customer,<br><br>Your Apple ID was locked because of multiple incorrect password attempts from an unrecognized device in Shanghai, China.<br><br>To unlock your Apple ID and restore iCloud photos, verify your personal details immediately:<br><br><a href="#" class="mock-link" onclick="return false;">https://appleid-icloud-lock.com/unlock</a><br><br>Apple Support',
+        type: 'phishing',
+        explanation: 'Correct! Apple notifications will always come from `@apple.com` or `@icloud.com`, never lookalike domains like `appleid-icloud-lock.com`.'
+    },
+    {
+        from: 'Dropbox <no-reply@dropbox.com>',
+        to: 'colleague@company.com',
+        subject: 'Maria shared "Q4 Product Strategy Deck.pdf" with you',
+        body: 'Maria (maria@company.com) shared a document with you on Dropbox.<br><br>File: Q4 Product Strategy Deck.pdf (14.2 MB)<br><br><a href="#" class="mock-link" onclick="return false;">https://www.dropbox.com/s/98127391/Q4_Strategy.pdf</a><br><br>Enjoy using Dropbox!',
+        type: 'safe',
+        explanation: 'Spot on! Authentic file sharing alert from `dropbox.com` pointing to official Dropbox asset links.'
+    },
+    {
+        from: 'MFA Administrator <mfa-admin@corporate-sso-verify.org>',
+        to: 'employee@company.com',
+        subject: 'MANDATORY: Scan QR Code to Re-register 2FA Authenticator',
+        body: 'Attention Staff,<br><br>Our enterprise Multi-Factor Authentication system is undergoing critical upgrade. All users MUST scan the QR code below using Google Authenticator or Microsoft Authenticator to re-pair their security token before end of day:<br><br><div class="p-3 bg-white text-dark text-center inline-block font-mono my-2 border rounded">📷 [ QR CODE PAYLOAD LINKING TO M365-PHISH-PASSKEY.NET ]</div><br><br>Failure to scan will block email login tomorrow.',
+        type: 'phishing',
+        explanation: 'Excellent detection! This is "Quishing" (QR Code Phishing). Attackers bypass email link filters by embedding QR codes that lead to credential harvesting portals.'
+    },
+    {
+        from: 'Cloudflare SSL <no-reply@notify.cloudflare.com>',
+        to: 'webmaster@company.com',
+        subject: '[Cloudflare] Universal SSL Certificate Successfully Renewed',
+        body: 'Hi Webmaster,<br><br>Universal SSL certificate for <strong>company.com</strong> has been automatically renewed and deployed across Cloudflare global edge servers.<br><br>No further action is required on your part.<br><br>View SSL status in Cloudflare Dashboard:<br><a href="#" class="mock-link" onclick="return false;">https://dash.cloudflare.com/ssl-overview</a>',
+        type: 'safe',
+        explanation: 'Correct! Official automated notification from `@notify.cloudflare.com` notifying about routine SSL maintenance.'
+    },
+    {
+        from: 'FedEx Express <sms-alert@fedex-tracking-package-id8.com>',
+        to: 'mobile-user@company.com',
+        subject: 'SMS Courier Alert: Customs Duty Fee Pending ($3.40)',
+        body: 'FedEx Parcel #FX-994012 is held at local depot due to unpaid international customs clearance fee of $3.40.<br><br>Confirm payment now to dispatch courier:<br><br><a href="#" class="mock-link" onclick="return false;">http://fedex-tracking-package-id8.com/pay</a>',
+        type: 'phishing',
+        explanation: 'Great eye! Classic SMS phishing ("Smishing") tactic impersonating courier brands to harvest credit card data.'
+    },
+    {
+        from: 'Atlassian Jira <jira@company.atlassian.net>',
+        to: 'developer@company.com',
+        subject: '[Jira] (SEC-409) Assigned to you: Update CORS policy on auth API',
+        body: 'Jira Software<br><br>Alex assigned issue <strong>SEC-409</strong> to you.<br><br>Summary: Update CORS policy on auth API endpoint<br>Priority: High<br><br><a href="#" class="mock-link" onclick="return false;">https://company.atlassian.net/browse/SEC-409</a><br><br>Atlassian Jira Cloud',
+        type: 'safe',
+        explanation: 'Correct! Genuine Jira Cloud notification directly linking to official company workspace `company.atlassian.net`.'
+    },
+    {
+        from: 'Coinbase Security <no-reply@coinbase-wallet-security-desk.com>',
+        to: 'crypto-trader@gmail.com',
+        subject: 'CRITICAL: Account Withdrawal of 2.45 ETH Initiated',
+        body: 'A withdrawal of 2.45 ETH ($6,125.00 USD) to external wallet 0x71C...9B1 was requested from your Coinbase account.<br><br>If you did NOT request this withdrawal, click immediately to cancel transaction and freeze wallet:<br><br><a href="#" class="mock-link" onclick="return false;">https://coinbase-wallet-security-desk.com/freeze</a>',
+        type: 'phishing',
+        explanation: 'Spot on! Crypto phishing emails provoke panic over fake withdrawals to steal seed phrases and wallet logins.'
+    },
+    {
+        from: 'Stripe Merchant <notifications@stripe.com>',
+        to: 'billing@company.com',
+        subject: 'Your payout of $4,850.00 USD is on its way',
+        body: 'Good news! A payout of $4,850.00 USD was submitted to your bank account ending in 9012.<br><br>Payout ID: po_1M9x21904812<br>Estimated deposit: 1-2 business days<br><br>Review payout summary in your Stripe Dashboard:<br><a href="#" class="mock-link" onclick="return false;">https://dashboard.stripe.com/payouts/po_1M9x21904812</a>',
+        type: 'safe',
+        explanation: 'Correct! Official financial notification from `stripe.com` with standard payout reference identifiers.'
+    },
+    {
+        from: 'Voicemail Service <voicemail-notification@m365-audio-portal.com>',
+        to: 'user@company.com',
+        subject: 'You received a 45-second audio voicemail message',
+        body: 'Caller ID: +1 (555) 019-2831<br>Duration: 00:45 seconds<br><br>Click play below to listen to audio transcript on office365 server:<br><br><a href="#" class="mock-link" onclick="return false;">http://m365-audio-portal.com/play?id=vm-9941</a>',
+        type: 'phishing',
+        explanation: 'Well spotted! Fake audio voicemail notifications lead users to fraudulent Microsoft login pages designed to harvest credentials.'
+    },
+    {
+        from: 'Adobe Creative Cloud <message@adobe.com>',
+        to: 'designer@company.com',
+        subject: 'Receipt for your Adobe Creative Cloud Subscription',
+        body: 'Thank you for your purchase.<br><br>Order Number: AD09128301<br>Item: Creative Cloud All Apps Membership<br>Amount Charged: $54.99 USD<br><br>Manage your plan or download tax invoice at:<br><a href="#" class="mock-link" onclick="return false;">https://account.adobe.com/orders</a>',
+        type: 'safe',
+        explanation: 'Correct! Legitimate transaction notification from Adobe sent from official domain `@adobe.com`.'
+    },
+    {
+        from: 'Global IT Support <admin-support@internal-company-it.net>',
+        to: 'staff@company.com',
+        subject: 'Mandatory VPN Configuration Upgrade Required Today',
+        body: 'Team,<br><br>We are upgrading our corporate Cisco AnyConnect VPN certificates tonight. To retain remote access tomorrow, you MUST download and install the new security patch executable before 6:00 PM:<br><br><a href="#" class="mock-link" onclick="return false;">http://internal-company-it.net/downloads/VPN_Security_Patch_v4.exe</a><br><br>IT Helpdesk',
+        type: 'phishing',
+        explanation: 'Critical catch! Downloading executable files (`.exe`) from lookalike domains (`internal-company-it.net`) is a primary vector for ransomware distribution.'
+    },
+    {
+        from: 'Google Docs <comments-noreply@docs.google.com>',
+        to: 'user@company.com',
+        subject: 'Jordan commented on "2026 Budget Forecast.docx"',
+        body: 'Jordan tagged you in a comment:<br><br><em>"@you please double-check line 42 numbers before our 2 PM review."</em><br><br><a href="#" class="mock-link" onclick="return false;">https://docs.google.com/document/d/19x8237198237/edit?comment=c19283</a><br><br>Google Workspace',
+        type: 'safe',
+        explanation: 'Correct! Official Google Docs comment notification coming directly from `@docs.google.com`.'
+    },
+    {
+        from: 'IRS Tax Refund Center <claim-refund@tax-refund-gov-portal.org>',
+        to: 'taxpayer@gmail.com',
+        subject: 'Unclaimed Federal Tax Refund: $1,420.50 Approved',
+        body: 'The Internal Revenue Service (IRS) has calculated your tax recalculation for 2025. You are eligible to receive an unclaimed refund of $1,420.50.<br><br>Submit your bank account routing details to process electronic deposit:<br><br><a href="#" class="mock-link" onclick="return false;">http://tax-refund-gov-portal.org/claim</a>',
+        type: 'phishing',
+        explanation: 'Spot on! The IRS never initiates contact with taxpayers by email or SMS to request sensitive financial details.'
+    },
+    {
+        from: 'Salesforce <notifications@salesforce.com>',
+        to: 'sales-rep@company.com',
+        subject: 'New Lead Assigned: Enterprise Prospect Acme Corp',
+        body: 'Salesforce CRM Notification:<br><br>A new lead <strong>Acme Corp ($150,000 ARR)</strong> has been assigned to your queue by Marketing.<br><br>View Lead details in Salesforce:<br><a href="#" class="mock-link" onclick="return false;">https://company.lightning.force.com/lightning/r/Lead/00Q5f00000123/view</a>',
+        type: 'safe',
+        explanation: 'Correct! Official Salesforce CRM lead assignment email linking directly to standard `lightning.force.com` domain.'
+    },
+    {
+        from: 'Webmail Administrator <postmaster@webmail-portal-upgrade.com>',
+        to: 'user@company.com',
+        subject: 'Warning: Mailbox Quota Full (99.8%) - Immediate Action Needed',
+        body: 'Your email inbox has exceeded its storage quota of 20 GB and is currently blocked from receiving incoming messages.<br><br>Click to expand mailbox quota by 50 GB free of charge:<br><br><a href="#" class="mock-link" onclick="return false;">http://webmail-portal-upgrade.com/revalidate</a>',
+        type: 'phishing',
+        explanation: 'Well caught! Mailbox full quota warnings on third-party lookalike domains are classic webmail credential harvesters.'
+    },
+    {
+        from: 'Okta Identity <noreply@okta.com>',
+        to: 'employee@company.com',
+        subject: 'Okta Verify Push Notification Sent',
+        body: 'An Okta Verify sign-in prompt was sent to your registered smartphone device.<br><br>Application: Corporate Workday SSO<br>IP Address: 198.51.100.45<br><br>If this was not you, tap "No, It\'s Not Me" in your Okta Verify app immediately to lock your account.',
+        type: 'safe',
+        explanation: 'Correct! Legitimate Okta SSO security advisory providing real-time sign-in context.'
+    },
+    {
+        from: 'DHL Express <no-reply@dhl-delivery-reschedule-id9.com>',
+        to: 'recipient@gmail.com',
+        subject: 'Shipment #DHL-88194: Address Confirmation Required',
+        body: 'Your DHL package cannot be delivered because house number is missing from shipping label.<br><br>Please confirm complete address within 48 hours to avoid package return to origin sender:<br><br><a href="#" class="mock-link" onclick="return false;">http://dhl-delivery-reschedule-id9.com/address</a>',
+        type: 'phishing',
+        explanation: 'Great job! Fake parcel delivery emails on suspicious lookalike domains target recipient address and contact information.'
+    },
+    {
+        from: 'Canva <notifications@canva.com>',
+        to: 'designer@company.com',
+        subject: 'Sam shared a design with you: "2026 Brand Guidelines"',
+        body: 'Sam invited you to edit a presentation design in Canva.<br><br>Design: 2026 Brand Guidelines & Assets<br><br><a href="#" class="mock-link" onclick="return false;">https://www.canva.com/design/DAG19238/view</a><br><br>Happy designing!',
+        type: 'safe',
+        explanation: 'Spot on! Authentic invitation from `canva.com` directing to standard Canva design project links.'
+    },
+    {
+        from: 'IT Help Desk <support@it-desk-remote-session.net>',
+        to: 'user@company.com',
+        subject: 'Remote Desktop Troubleshooting Authorization Needed',
+        body: 'Hi User,<br><br>IT Support detected network anomalies on your workstation. We require remote screen access via AnyDesk / TeamViewer to clear temporary cache files.<br><br>Click to grant instant remote admin permissions:<br><br><a href="#" class="mock-link" onclick="return false;">http://it-desk-remote-session.net/grant-access</a>',
+        type: 'phishing',
+        explanation: 'Critical catch! Attackers masquerade as internal IT helpdesk reps to trick users into installing unapproved Remote Access Trojans (RATs).'
+    },
+    {
+        from: 'Shopify <no-reply@shopify.com>',
+        to: 'buyer@gmail.com',
+        subject: 'Order #1092 Confirmed - CyberTech Gear Store',
+        body: 'Thank you for your purchase!<br><br>Order Total: $89.00 USD<br>Shipping Method: Standard Express Ground<br><br>Track your shipment status:<br><a href="#" class="mock-link" onclick="return false;">https://www.shopify.com/order-lookup/1092</a>',
+        type: 'safe',
+        explanation: 'Correct! Legitimate transaction confirmation email sent from official Shopify merchant notification system.'
+    },
+    {
+        from: 'Microsoft App Consent <oauth-consent@m365-app-auth.com>',
+        to: 'user@company.com',
+        subject: 'Permissions Request: "PDF Converter Pro" wants to access your account',
+        body: 'Third-Party App Request:<br><strong>PDF Converter Pro</strong> requests permission to:<br>• Read all user emails and contacts<br>• Access and edit OneDrive files<br>• Send email on your behalf<br><br><a href="#" class="mock-link" onclick="return false;">https://m365-app-auth.com/oauth/accept</a>',
+        type: 'phishing',
+        explanation: 'Excellent detection! This is "OAuth Consent Phishing" (Illicit Consent Grant attack), where malicious apps trick users into granting permissions to exfiltrate email data without needing passwords.'
+    },
+    {
+        from: 'GitLab CI/CD <gitlab@company-gitlab.internal.net>',
+        to: 'dev@company.com',
+        subject: 'Pipeline #88491 failed for main branch on auth-api',
+        body: 'GitLab Pipeline Notification:<br><br>Project: backend/auth-api<br>Branch: main<br>Status: Failed (Job: unit-tests)<br><br>View pipeline logs:<br><a href="#" class="mock-link" onclick="return false;">https://gitlab.company.com/backend/auth-api/-/pipelines/88491</a>',
+        type: 'safe',
+        explanation: 'Correct! Standard internal automated CI/CD pipeline alert pointing directly to company internal developer tooling.'
+    },
+    {
+        from: 'Zoom Gift Rewards <rewards@zoom-conference-survey.org>',
+        to: 'participant@company.com',
+        subject: 'Claim $50 Amazon Gift Card for completing Zoom Feedback Survey',
+        body: 'Thank you for attending our virtual Tech Summit yesterday!<br><br>As a token of appreciation, we are awarding all attendees a $50 Amazon e-Gift Card. Click below to claim your code before it expires:<br><br><a href="#" class="mock-link" onclick="return false;">http://zoom-conference-survey.org/claim-card</a>',
+        type: 'phishing',
+        explanation: 'Spot on! Fake reward surveys on third-party domains are designed to steal personal info and survey credentials.'
+    },
+    {
+        from: 'Figma <no-reply@figma.com>',
+        to: 'ui-ux@company.com',
+        subject: 'Elena invited you to the team "Mobile App Redesign" on Figma',
+        body: 'Elena (elena@company.com) added you to the <strong>Mobile App Redesign</strong> workspace.<br><br>Click to view Figma files:<br><a href="#" class="mock-link" onclick="return false;">https://www.figma.com/file/98127391/Mobile-App-v2</a>',
+        type: 'safe',
+        explanation: 'Correct! Official workspace invite email originating directly from `@figma.com`.'
+    },
+    {
+        from: 'Chase Fraud Team <security@chase-bank-verify-alert.com>',
+        to: 'customer@gmail.com',
+        subject: 'URGENT: Your Chase Debit Card Has Been Deactivated',
+        body: 'Security Alert:<br>Unusual ATM withdrawal attempts were registered on your Chase account in London, UK.<br><br>Your card has been locked for safety. Please confirm your PIN and SSN to reactivate:<br><br><a href="#" class="mock-link" onclick="return false;">https://chase-bank-verify-alert.com/reactivate</a>',
+        type: 'phishing',
+        explanation: 'Nicely caught! Chase Bank will never send emails asking you to confirm your card PIN or Social Security Number via a link.'
+    },
+    {
+        from: 'SentinelGuard AI <alerts@sentinelguard.io>',
+        to: 'soc-admin@company.com',
+        subject: '[SentinelGuard] Weekly Threat Intelligence Digest: 14 Threats Blocked',
+        body: 'SentinelGuard Threat Radar Summary:<br><br>• Total Scans: 1,482<br>• High-Risk Threats Blocked: 14<br>• Average Risk Score: 12%<br><br>View full SOC Analytics Console:<br><a href="#" class="mock-link" onclick="return false;">https://sentinelguard.io/dashboard</a>',
+        type: 'safe',
+        explanation: 'Correct! Official automated intelligence digest from official SentinelGuard platform.'
+    },
+    {
+        from: 'WhatsApp Web <security@whatsapp-web-session-login.com>',
+        to: 'user@domain.com',
+        subject: 'New WhatsApp Web sign-in detected on Safari (macOS)',
+        body: 'Your WhatsApp account was connected to WhatsApp Web on a new Mac device.<br><br>If this was NOT you, click immediately to terminate all remote web sessions:<br><br><a href="#" class="mock-link" onclick="return false;">http://whatsapp-web-session-login.com/terminate</a>',
+        type: 'phishing',
+        explanation: 'Spot on! Fake messaging web alerts lure users into linking malicious devices or handing over SMS OTP codes.'
+    },
+    {
+        from: 'Calendly <notifications@calendly.com>',
+        to: 'consultant@company.com',
+        subject: 'Confirmed: Strategy Consultation with David Miller @ Mon Oct 5, 2026',
+        body: 'Event Details:<br>Host: David Miller<br>Time: 2:00 PM - 2:30 PM (EST)<br>Location: Google Meet link included in invitation<br><br>Need to reschedule or cancel?<br><a href="#" class="mock-link" onclick="return false;">https://calendly.com/cancellations/EVENT109238</a>',
+        type: 'safe',
+        explanation: 'Correct! Official booking confirmation email originating from `@calendly.com`.'
+    },
+    {
+        from: 'Workday HR <payroll-update@workday-employee-portal.net>',
+        to: 'staff@company.com',
+        subject: 'Action Required: Update Direct Deposit Routing Number',
+        body: 'Due to end-of-quarter payroll audit, all active employees must confirm their bank routing number to ensure timely salary payment on Friday:<br><br><a href="#" class="mock-link" onclick="return false;">http://workday-employee-portal.net/update-banking</a>',
+        type: 'phishing',
+        explanation: 'Great catch! Direct deposit scam targeting employee salary payments via fake Workday portal lookalikes.'
+    },
+    {
+        from: 'Asana Notifications <notifications@asana.com>',
+        to: 'pm@company.com',
+        subject: 'Task Completed: "Finalize Product Release Notes v2.4"',
+        body: 'Taylor marked task <strong>"Finalize Product Release Notes v2.4"</strong> as complete in project <em>Q4 Roadmap</em>.<br><br>View completed task:<br><a href="#" class="mock-link" onclick="return false;">https://app.asana.com/0/12345/67890</a>',
+        type: 'safe',
+        explanation: 'Correct! Genuine project management update from official `@asana.com` email domain.'
+    },
+    {
+        from: 'Spotify Support <billing@spotify-account-refund-center.com>',
+        to: 'music-lover@gmail.com',
+        subject: 'Dispute Confirmation: $119.99 Charged for Spotify Premium Family',
+        body: 'We processed a annual subscription charge of $119.99 USD to your account.<br><br>If you wish to cancel this subscription and claim a instant refund, click below:<br><br><a href="#" class="mock-link" onclick="return false;">http://spotify-account-refund-center.com/refund</a>',
+        type: 'phishing',
+        explanation: 'Spot on! Fake subscription charge emails leverage surprise billing invoices to coerce users into typing credit card details into phishing pages.'
+    },
+    {
+        from: 'ServiceNow <servicenow@company.com>',
+        to: 'it-support@company.com',
+        subject: '[INC-99120] State changed to Resolved: Network Switch Maintenance',
+        body: 'Incident INC-99120 status updated to <strong>Resolved</strong>.<br><br>Resolved by: Infrastructure Team<br>Resolution Notes: Rebooted core switch in Rack 4B.<br><br>Reopen or close ticket:<br><a href="#" class="mock-link" onclick="return false;">https://company.service-now.com/nav_to.do?uri=incident.do?sys_id=99120</a>',
+        type: 'safe',
+        explanation: 'Correct! Official IT service management ticket notification linking directly to corporate `service-now.com` instance.'
+    },
+    {
+        from: 'Microsoft Teams <teams-recording@m365-voicemail-transcripts.com>',
+        to: 'user@company.com',
+        subject: 'Missed Call & Voice Message from Line +1 (415) 555-0199',
+        body: 'You missed a call in Microsoft Teams.<br><br>Caller: Unknown (+1 415 555-0199)<br>Message: 0:32 seconds<br><br><a href="#" class="mock-link" onclick="return false;">http://m365-voicemail-transcripts.com/teams/listen</a>',
+        type: 'phishing',
+        explanation: 'Well spotted! Fake Teams voicemail notification hosted on untrusted domain `m365-voicemail-transcripts.com`.'
+    },
+    {
+        from: 'PagerDuty Alerts <no-reply@pagerduty.com>',
+        to: 'devops-oncall@company.com',
+        subject: '[ALERT] [#10492] High Severity: Database Latency Spike > 500ms',
+        body: 'PagerDuty Incident #10492 Triggered:<br><br>Service: Production Primary Database<br>Severity: High<br>Status: Triggered (Unacknowledged)<br><br>Acknowledge or resolve incident:<br><a href="#" class="mock-link" onclick="return false;">https://company.pagerduty.com/incidents/P10492</a>',
+        type: 'safe',
+        explanation: 'Correct! Official incident management alert from `@pagerduty.com` linking to company PagerDuty portal.'
+    },
+    {
+        from: 'Crypto Airdrop Loyalty <claim@free-eth-airdrop-rewards.top>',
+        to: 'trader@gmail.com',
+        subject: 'CONGRATULATIONS: You won 5.0 ETH in Web3 Ecosystem Airdrop!',
+        body: 'Your Ethereum wallet address was randomly selected in our Q3 Community Airdrop!<br><br>Reward: 5.0 ETH ($12,500 USD)<br><br>Connect your MetaMask or Trust Wallet to claim token allocation immediately:<br><br><a href="#" class="mock-link" onclick="return false;">http://free-eth-airdrop-rewards.top/claim-tokens</a>',
+        type: 'phishing',
+        explanation: 'Spot on! Crypto airdrop scams on high-risk `.top` domains use drainer scripts to drain all assets upon wallet connection.'
+    },
+    {
+        from: 'HubSpot Marketing <noreply@hubspot.com>',
+        to: 'marketing@company.com',
+        subject: 'Weekly Performance Report: 1,420 New Form Submissions',
+        body: 'HubSpot Analytics Summary:<br><br>• New Leads: 1,420 (+12% vs last week)<br>• Top Performing Campaign: Fall Web Security Whitepaper<br><br>View full analytics report:<br><a href="#" class="mock-link" onclick="return false;">https://app.hubspot.com/reports/12345/dashboard</a>',
+        type: 'safe',
+        explanation: 'Correct! Standard marketing analytics update from official `@hubspot.com` sender.'
+    },
+    {
+        from: 'Corporate IT Security <compliance@internal-security-mandate.com>',
+        to: 'staff@company.com',
+        subject: 'MANDATORY: Install New YubiKey Security Dongle Drivers',
+        body: 'All corporate staff are required to update their USB hardware security key drivers before accessing company network.<br><br>Download mandatory driver patch file:<br><br><a href="#" class="mock-link" onclick="return false;">http://internal-security-mandate.com/drivers/YubiKey_Setup_2026.exe</a>',
+        type: 'phishing',
+        explanation: 'Excellent detection! Malicious executable driver download hosted on suspicious third-party lookalike domain (`internal-security-mandate.com`).'
     }
 ];
 
@@ -1045,13 +1421,30 @@ function initPhishGame() {
 
 function renderScenario() {
     const sc = GAME_SCENARIOS[state.sandbox.currentScenarioIndex];
-    document.getElementById('scen-from').innerText = sc.from;
-    document.getElementById('scen-to').innerText = sc.to;
-    document.getElementById('scen-subject').innerText = sc.subject;
-    document.getElementById('scen-body').innerHTML = sc.body;
-    document.getElementById('scenario-number').innerText = state.sandbox.currentScenarioIndex + 1;
-    
-    document.getElementById('game-feedback').classList.add('hidden');
+    if (!sc) return;
+
+    const fromEl = document.getElementById('scen-from');
+    const toEl = document.getElementById('scen-to');
+    const subjectEl = document.getElementById('scen-subject');
+    const bodyEl = document.getElementById('scen-body');
+    const scenNumEl = document.getElementById('scenario-number');
+    const totalCountEl = document.getElementById('total-scenarios-count');
+    const strikesEl = document.getElementById('phish-strikes');
+    const scoreEl = document.getElementById('phish-score');
+    const streakEl = document.getElementById('phish-streak');
+
+    if (fromEl) fromEl.innerText = sc.from;
+    if (toEl) toEl.innerText = sc.to;
+    if (subjectEl) subjectEl.innerText = sc.subject;
+    if (bodyEl) bodyEl.innerHTML = sc.body;
+    if (scenNumEl) scenNumEl.innerText = state.sandbox.currentScenarioIndex + 1;
+    if (totalCountEl) totalCountEl.innerText = GAME_SCENARIOS.length;
+    if (strikesEl) strikesEl.innerText = `${state.sandbox.wrongAttempts || 0}/3`;
+    if (scoreEl) scoreEl.innerText = state.sandbox.score;
+    if (streakEl) streakEl.innerText = state.sandbox.streak;
+
+    const feedbackCard = document.getElementById('game-feedback');
+    if (feedbackCard) feedbackCard.classList.add('hidden');
     state.sandbox.answered = false;
 }
 
@@ -1067,21 +1460,47 @@ function submitAnswer(userChoice) {
     const feedbackExp = document.getElementById('feedback-explanation');
 
     if (isCorrect) {
-        state.sandbox.score += 100 + (state.sandbox.streak * 20);
+        const bonus = state.sandbox.streak * 20;
+        const ptsGained = 100 + bonus;
+        state.sandbox.score += ptsGained;
         state.sandbox.streak++;
-        feedbackTitle.className = 'feedback-header text-green';
-        feedbackTitle.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct Assessment! (+100 pts)';
+        if (feedbackTitle) {
+            feedbackTitle.className = 'feedback-header text-green';
+            feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct Assessment! (+${ptsGained} pts)`;
+        }
     } else {
-        state.sandbox.streak = 0;
-        feedbackTitle.className = 'feedback-header text-red';
-        feedbackTitle.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrect Assessment!';
+        // Point Decrement Penalty (-50 pts, min 0)
+        state.sandbox.score = Math.max(0, state.sandbox.score - 50);
+        state.sandbox.wrongAttempts = (state.sandbox.wrongAttempts || 0) + 1;
+
+        if (state.sandbox.wrongAttempts >= 3) {
+            // 3-Strike Rule: Streak Ended!
+            state.sandbox.streak = 0;
+            state.sandbox.wrongAttempts = 0; // Reset strike count for fresh attempt
+            showToast('⚠️ 3 Wrong Attempts Reached! Your streak has been reset to 0.', 'warning');
+            if (feedbackTitle) {
+                feedbackTitle.className = 'feedback-header text-red';
+                feedbackTitle.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> 3 Strikes Reached! Streak Ended! (-50 pts)';
+            }
+        } else {
+            state.sandbox.streak = 0;
+            if (feedbackTitle) {
+                feedbackTitle.className = 'feedback-header text-red';
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect Assessment! (-50 pts | Strike ${state.sandbox.wrongAttempts}/3)`;
+            }
+        }
     }
 
-    feedbackExp.innerText = sc.explanation;
-    feedbackCard.classList.remove('hidden');
+    if (feedbackExp) feedbackExp.innerText = sc.explanation;
+    if (feedbackCard) feedbackCard.classList.remove('hidden');
 
-    document.getElementById('phish-score').innerText = state.sandbox.score;
-    document.getElementById('phish-streak').innerText = state.sandbox.streak;
+    const scoreEl = document.getElementById('phish-score');
+    const streakEl = document.getElementById('phish-streak');
+    const strikesEl = document.getElementById('phish-strikes');
+
+    if (scoreEl) scoreEl.innerText = state.sandbox.score;
+    if (streakEl) streakEl.innerText = state.sandbox.streak;
+    if (strikesEl) strikesEl.innerText = `${state.sandbox.wrongAttempts || 0}/3`;
 }
 
 function nextScenario() {

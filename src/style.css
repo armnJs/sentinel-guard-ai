@@ -1449,7 +1449,7 @@ input:checked + .slider-round:before { transform: translateX(22px); }
 /* Sandbox Game Styles */
 .sandbox-game-card { max-width: 800px; margin: 0 auto; }
 .sandbox-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: rgba(7, 9, 19, 0.6); border-bottom: 1px solid var(--border-color); }
-.player-score-badge, .level-indicator, .streak-badge { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+.player-score-badge, .level-indicator, .streak-badge, .strikes-badge { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
 .scenario-display-box { padding: 1.5rem; }
 .email-mockup { background: #0f172a; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; font-family: sans-serif; }
 .email-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 0.85rem; margin-bottom: 1rem; font-size: 0.85rem; }
