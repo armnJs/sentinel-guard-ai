@@ -94,7 +94,35 @@ function handleCookieConsent(choice) {
     }
 }
 
+function initAntiInspect() {
+    // Disable Right-Click Context Menu
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showToast('Developer Context Menu restricted by SentinelGuard Zero-Trust Security Policy.', 'warning');
+    });
+
+    // Disable Dev Tools Shortcuts (F12, Ctrl+Shift+I/J/C, Ctrl+U, Cmd+Option+I/J/C)
+    document.addEventListener('keydown', (e) => {
+        const isCmdOrCtrl = e.ctrlKey || e.metaKey;
+        const isShift = e.shiftKey;
+        const key = e.key ? e.key.toUpperCase() : '';
+
+        if (
+            e.key === 'F12' ||
+            (isCmdOrCtrl && isShift && (key === 'I' || key === 'J' || key === 'C')) ||
+            (isCmdOrCtrl && key === 'U') ||
+            (e.metaKey && e.altKey && (key === 'I' || key === 'J' || key === 'C'))
+        ) {
+            e.preventDefault();
+            e.stopPropagation();
+            showToast('Developer Inspect Tools restricted by SentinelGuard Security Policy.', 'warning');
+            return false;
+        }
+    });
+}
+
 function setupEventListeners() {
+    initAntiInspect();
     // Enable Enter key submission for inputs
     document.getElementById('target-url-input')?.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') runThreatScan();

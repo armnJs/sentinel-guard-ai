@@ -1280,3 +1280,109 @@ body {
 
 .faq-item.active .faq-body { display: block; }
 .faq-item.active .faq-icon { transform: rotate(180deg); }
+
+/* --- SECURITY & ANTI-TAMPER PROTECTIONS --- */
+body, html {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input, textarea, pre, code, .printable-area, .mock-link {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* --- COMPREHENSIVE RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 992px) {
+    .hero-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .hero-stats {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .scanner-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .scanner-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 0.35rem;
+    }
+
+    .grid-2col, .grid-3col, .grid-4col {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0.65rem 1rem;
+    }
+    
+    .hero-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .scanner-actions {
+        flex-direction: column;
+    }
+    
+    .scanner-actions .btn {
+        width: 100%;
+    }
+    
+    .game-choices {
+        flex-direction: column;
+    }
+    
+    .chat-window {
+        width: calc(100vw - 32px);
+        right: 16px;
+        bottom: 76px;
+        height: 480px;
+    }
+    
+    .cookie-banner {
+        width: calc(100vw - 32px);
+    }
+    
+    .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .cookie-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-container, .app-content {
+        padding: 1.25rem 1rem;
+    }
+    
+    .card, .scanner-box {
+        padding: 1rem;
+    }
+    
+    .brand-text h1 {
+        font-size: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
