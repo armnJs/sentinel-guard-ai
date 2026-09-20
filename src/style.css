@@ -339,22 +339,6 @@ body {
 @media (max-width: 992px) {
     .mobile-menu-toggle { display: block; }
     .header-status { display: none; }
-    .main-nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        background: rgba(7, 9, 19, 0.95);
-        backdrop-filter: blur(20px);
-        padding: 1rem;
-        border-radius: 0 0 16px 16px;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    }
-    .main-nav.mobile-active { display: flex; }
-    .nav-btn { width: 100%; justify-content: flex-start; padding: 0.85rem 1.25rem; }
 }
 
 /* Header Status */
@@ -3769,12 +3753,38 @@ input, textarea, pre, code, .printable-area, .mock-link {
         padding: 0.75rem 1.25rem;
     }
 
+    .mobile-nav-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(3, 7, 18, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 9998;
+        animation: fadeIn 0.25s ease-out;
+    }
+
+    .mobile-nav-backdrop.hidden {
+        display: none !important;
+    }
+
     .mobile-menu-toggle {
         display: flex !important;
         align-items: center;
         justify-content: center;
         min-width: 44px;
         min-height: 44px;
+        background: rgba(15, 23, 42, 0.8) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--accent-cyan) !important;
+        border-radius: 10px;
+        font-size: 1.15rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+        background: rgba(0, 243, 255, 0.15) !important;
+        border-color: var(--accent-cyan) !important;
     }
 
     .main-nav {
@@ -3784,26 +3794,108 @@ input, textarea, pre, code, .printable-area, .mock-link {
         left: 0;
         right: 0;
         flex-direction: column;
-        background: hsl(var(--card-hsl));
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: 1rem;
-        border-radius: 0 0 var(--radius) var(--radius);
-        border: 1px solid hsl(var(--border-hsl));
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-        z-index: 999;
+        background: #080c17 !important; /* 100% Solid Opaque Dark - NO content bleed-through */
+        padding: 1.25rem 1rem;
+        border-radius: 0 0 16px 16px;
+        border-bottom: 2px solid var(--accent-cyan) !important;
+        border-left: 1px solid rgba(56, 189, 248, 0.25) !important;
+        border-right: 1px solid rgba(56, 189, 248, 0.25) !important;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), 0 10px 30px rgba(0, 243, 255, 0.2) !important;
+        z-index: 10000 !important;
+        gap: 0.65rem;
     }
 
     .main-nav.mobile-active {
         display: flex !important;
+        animation: slideDownMenu 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .nav-btn {
+    @keyframes slideDownMenu {
+        from { opacity: 0; transform: translateY(-12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .main-nav .nav-btn {
         width: 100%;
-        min-height: 44px;
+        min-height: 48px;
         justify-content: flex-start;
-        padding: 0.75rem 1.25rem;
+        padding: 0.85rem 1.25rem;
         font-size: 0.95rem;
+        font-weight: 600;
+        background: rgba(15, 23, 42, 0.95) !important;
+        border: 1px solid rgba(56, 189, 248, 0.22) !important;
+        border-radius: 10px !important;
+        color: #f8fafc !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.2s ease;
+    }
+
+    .main-nav .nav-btn:hover,
+    .main-nav .nav-btn:focus {
+        background: rgba(30, 41, 59, 1) !important;
+        border-color: var(--accent-cyan) !important;
+        transform: translateY(-1px);
+    }
+
+    .main-nav .nav-btn.active {
+        background: linear-gradient(135deg, rgba(0, 243, 255, 0.22), rgba(59, 130, 246, 0.22)) !important;
+        color: #00f3ff !important;
+        border: 1.5px solid #00f3ff !important;
+        box-shadow: 0 0 18px rgba(0, 243, 255, 0.35) !important;
+    }
+
+    .main-nav .admin-nav-btn {
+        background: rgba(255, 0, 85, 0.12) !important;
+        border: 1px solid rgba(255, 0, 85, 0.4) !important;
+        color: #ff0055 !important;
+    }
+
+    .main-nav .admin-nav-btn.active {
+        background: linear-gradient(135deg, rgba(255, 0, 85, 0.25), rgba(139, 92, 246, 0.25)) !important;
+        color: #ff0055 !important;
+        border: 1.5px solid #ff0055 !important;
+        box-shadow: 0 0 20px rgba(255, 0, 85, 0.45) !important;
+    }
+
+    /* Light Theme Overrides for Mobile Navigation Drawer */
+    [data-theme="light"] .main-nav {
+        background: #ffffff !important; /* 100% Solid Opaque Crisp White */
+        border-bottom: 2px solid #2563eb !important;
+        border-left: 1px solid rgba(203, 213, 225, 0.8) !important;
+        border-right: 1px solid rgba(203, 213, 225, 0.8) !important;
+        box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25) !important;
+    }
+
+    [data-theme="light"] .main-nav .nav-btn {
+        background: #f8fafc !important;
+        border: 1px solid rgba(203, 213, 225, 0.85) !important;
+        color: #0f172a !important;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+    }
+
+    [data-theme="light"] .main-nav .nav-btn:hover {
+        background: #f1f5f9 !important;
+        border-color: #2563eb !important;
+    }
+
+    [data-theme="light"] .main-nav .nav-btn.active {
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+        border: 1.5px solid #2563eb !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.18) !important;
+    }
+
+    [data-theme="light"] .main-nav .admin-nav-btn {
+        background: #fef2f2 !important;
+        border: 1px solid #fca5a5 !important;
+        color: #dc2626 !important;
+    }
+
+    [data-theme="light"] .main-nav .admin-nav-btn.active {
+        background: #fee2e2 !important;
+        border: 1.5px solid #dc2626 !important;
+        color: #b91c1c !important;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2) !important;
     }
 
     .hero-banner {

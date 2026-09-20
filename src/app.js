@@ -138,7 +138,11 @@ function switchTab(tabId) {
 
     // Automatically close mobile navigation drawer upon selecting a tab
     const nav = document.querySelector('.main-nav');
+    const backdrop = document.getElementById('mobile-nav-backdrop');
+    const menuIcon = document.getElementById('menu-icon');
     if (nav) nav.classList.remove('mobile-active');
+    if (backdrop) backdrop.classList.add('hidden');
+    if (menuIcon) menuIcon.className = 'fa-solid fa-bars';
 
     // Update Nav Buttons
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -1754,7 +1758,22 @@ function showToast(msg, type = 'info') {
 
 function toggleMobileMenu() {
     const nav = document.querySelector('.main-nav');
-    if (nav) nav.classList.toggle('mobile-active');
+    const backdrop = document.getElementById('mobile-nav-backdrop');
+    const menuIcon = document.getElementById('menu-icon');
+
+    if (nav) {
+        const isOpen = nav.classList.toggle('mobile-active');
+        if (backdrop) {
+            if (isOpen) {
+                backdrop.classList.remove('hidden');
+            } else {
+                backdrop.classList.add('hidden');
+            }
+        }
+        if (menuIcon) {
+            menuIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+    }
 }
 
 function openModal(modalId) {
