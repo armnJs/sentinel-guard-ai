@@ -581,6 +581,12 @@ function renderScanResults(results) {
     const resultsContainer = document.getElementById('scan-results');
     resultsContainer.classList.remove('hidden');
 
+    // Cross-fill domain audit input for seamless tab switching
+    const domainAuditInput = document.getElementById('domain-audit-input');
+    if (domainAuditInput && results.type === 'url') {
+        domainAuditInput.value = results.input;
+    }
+
     // Risk Gauge & Verdict
     const scoreVal = document.getElementById('risk-score-value');
     const verdictBadge = document.getElementById('risk-verdict-badge');
@@ -819,24 +825,16 @@ function takeAction(actionType) {
 }
 
 // --- DOMAIN SECURITY HEADER AUDITOR ---
-// --- DOMAIN SECURITY HEADER AUDITOR ---
 function runDomainAudit() {
     const inputElement = document.getElementById('domain-audit-input');
     const rawInput = inputElement ? inputElement.value.trim() : '';
     const domainInput = rawInput || 'devpost.com';
 
-    // Parse domain cleanly from URL if scheme provided
-    let cleanDomain = domainInput.toLowerCase();
-    try {
-        if (cleanDomain.includes('://')) {
-            cleanDomain = new URL(cleanDomain).hostname;
-        } else {
-            cleanDomain = cleanDomain.split('/')[0].split('?')[0].split(':')[0];
-        }
-    } catch (e) {
-        cleanDomain = domainInput.replace(/^https?:\/\//, '').split('/')[0];
+    // Synchronize to Threat Scanner input field as well
+    const targetUrlInput = document.getElementById('target-url-input');
+    if (targetUrlInput && !targetUrlInput.value) {
+        targetUrlInput.value = domainInput;
     }
-    if (!cleanDomain) cleanDomain = 'devpost.com';
 
     // Visual Feedback: Button Loading State
     const btn = document.querySelector('.audit-input-bar .btn');
@@ -845,7 +843,11 @@ function runDomainAudit() {
         btn.disabled = true;
     }
 
-    showToast(`Evaluating security headers & SSL/TLS config for ${cleanDomain}...`, 'info');
+    // Run identical multi-vector heuristic core as Threat Scanner!
+    const results = analyzeTarget(domainInput, 'url');
+    state.lastScanData = results;
+
+    showToast(`Evaluating security headers & SSL/TLS config for ${results.hostname}...`, 'info');
 
     setTimeout(() => {
         if (btn) {
@@ -853,21 +855,23 @@ function runDomainAudit() {
             btn.disabled = false;
         }
 
-        // Domain characteristics analysis for dynamic results
-        const isPhishOrSubdomain = cleanDomain.includes('clinkt') || cleanDomain.includes('disruption') || cleanDomain.includes('studio') || cleanDomain.includes('paypa1') || cleanDomain.includes('verify') || cleanDomain.includes('m365') || cleanDomain.includes('xyz');
-        const isHighSecurity = cleanDomain === 'github.com' || cleanDomain === 'google.com' || cleanDomain === 'microsoft.com' || cleanDomain === 'stripe.com';
-
+        // Derive grade & metrics directly from identical analyzeTarget riskScore!
         let grade = 'A+';
         let passCount = 6;
         let vulnText = '0 High Risk';
         let gradeColorClass = 'text-green';
 
-        if (isPhishOrSubdomain) {
+        if (results.riskScore >= 75) {
+            grade = 'F';
+            passCount = 2;
+            vulnText = '3 High Risk';
+            gradeColorClass = 'text-red';
+        } else if (results.riskScore >= 50) {
             grade = 'C-';
             passCount = 4;
             vulnText = '2 Medium Risk';
             gradeColorClass = 'text-yellow';
-        } else if (!isHighSecurity && cleanDomain.length > 20) {
+        } else if (results.riskScore >= 30) {
             grade = 'B+';
             passCount = 5;
             vulnText = '1 Low Risk';
@@ -886,24 +890,24 @@ function runDomainAudit() {
         if (passEl) passEl.innerText = `${passCount} / 7`;
         if (vulnEl) vulnEl.innerText = vulnText;
 
-        // Dynamic Header Evaluation Table Matrix
+        // Dynamic Header Evaluation Table Matrix synced with analyzeTarget findings
         const headersList = [
             { 
                 name: 'Strict-Transport-Security (HSTS)', 
-                pass: true, 
-                val: `max-age=31536000; includeSubDomains; preload (${cleanDomain})`, 
+                pass: results.riskScore < 75, 
+                val: results.riskScore >= 75 ? `max-age=0 (Disabled on ${results.hostname})` : `max-age=31536000; includeSubDomains; preload (${results.hostname})`, 
                 impact: 'Enforces HTTPS encrypted connections across all subdomains.' 
             },
             { 
                 name: 'Content-Security-Policy (CSP)', 
-                pass: !isPhishOrSubdomain, 
-                val: isPhishOrSubdomain ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' *" : "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net", 
-                impact: isPhishOrSubdomain ? 'CRITICAL: Permissive CSP allows unauthorized external script execution.' : 'Prevents Cross-Site Scripting (XSS) and arbitrary script injection.' 
+                pass: results.riskScore < 50, 
+                val: results.riskScore >= 50 ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' *" : "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net", 
+                impact: results.riskScore >= 50 ? 'CRITICAL: Permissive CSP allows unauthorized external script execution.' : 'Prevents Cross-Site Scripting (XSS) and arbitrary script injection.' 
             },
             { 
                 name: 'X-Frame-Options', 
-                pass: true, 
-                val: 'DENY', 
+                pass: results.riskScore < 70, 
+                val: results.riskScore >= 70 ? 'NOT SET (Clickjacking Vector)' : 'DENY', 
                 impact: 'Protects application against Clickjacking attacks inside iframes.' 
             },
             { 
@@ -926,9 +930,9 @@ function runDomainAudit() {
             },
             { 
                 name: 'Access-Control-Allow-Origin (CORS)', 
-                pass: !isPhishOrSubdomain, 
-                val: isPhishOrSubdomain ? `Wildcard (*) CORS Allowed for ${cleanDomain}` : `Restricted Origin Policy (${cleanDomain})`, 
-                impact: isPhishOrSubdomain ? 'WARNING: Wildcard CORS permits unauthorized cross-origin API exfiltration.' : 'Prevents unauthorized cross-origin API data exfiltration.' 
+                pass: results.riskScore < 45, 
+                val: results.riskScore >= 45 ? `Wildcard (*) CORS Allowed for ${results.hostname}` : `Restricted Origin Policy (${results.hostname})`, 
+                impact: results.riskScore >= 45 ? 'WARNING: Wildcard CORS permits unauthorized cross-origin API exfiltration.' : 'Prevents unauthorized cross-origin API data exfiltration.' 
             }
         ];
 
@@ -950,12 +954,18 @@ function runDomainAudit() {
 
         state.headerAudited = true;
 
-        // Trigger AitM & Passkey Origin Inspector Module
+        // Trigger AitM & Passkey Origin Inspector Module with identical hostname
         if (window.AitmPasskeyModule) {
-            AitmPasskeyModule.runAitmPasskeyAudit(cleanDomain);
+            AitmPasskeyModule.runAitmPasskeyAudit(results.hostname);
         }
 
-        showToast(`Security Header Audit complete for ${cleanDomain}! Grade: ${grade}`, 'success');
+        // Synchronize Security Report & SOC Remediation Playbook
+        updateReportTab(results);
+        if (window.SocPlaybookModule) {
+            SocPlaybookModule.init(results);
+        }
+
+        showToast(`Domain Security Audit completed for ${results.hostname}! Grade: ${grade} (Risk: ${results.riskScore}/100)`, 'success');
     }, 450);
 }
 
